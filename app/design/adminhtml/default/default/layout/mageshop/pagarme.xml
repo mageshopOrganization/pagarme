@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<layout version="1.0.0.0">
+	<adminhtml_system_config_edit>
+		<reference name="head">
+			<action method="addJs"><script>mageshop/pagarme/hub.js</script></action>
+		</reference>
+	</adminhtml_system_config_edit>
+	<adminhtml_transactions_index>
+		<reference name="content">
+			<block
+				type="mageshop_pagarme/adminhtml_transactions"
+				name="mageshop_pagarme_transactions"
+			/>
+		</reference>
+	</adminhtml_transactions_index>
+	<adminhtml_transactions_view>
+		<reference name="content">
+			<block
+				type="mageshop_pagarme/adminhtml_transactions_view"
+				name="mageshop_pagarme_transactions_view"
+				template="mageshop/pagarme/transaction/view.phtml"
+			/>
+		</reference>
+	</adminhtml_transactions_view>
+	<adminhtml_sales_order_view>
+		<reference name="head">
+			<action method="addItem">
+				<type>skin_css</type>
+				<name>mageshop/pagarme/order.css</name>
+			</action>
+		</reference>
+		<reference name="sales_order_tabs">
+            <action method="addTab">
+                <name>pagarme_order_view_tab</name>
+                <block>mageshop_pagarme/adminhtml_order_view_tab_contents</block>
+            </action>
+        </reference>
+	</adminhtml_sales_order_view>
+	<adminhtml_jobs_index>
+		<reference name="content">
+			<block
+				type="mageshop_pagarme/adminhtml_jobs"
+				name="mageshop_pagarme_jobs"
+			/>
+		</reference>
+	</adminhtml_jobs_index>
+</layout>

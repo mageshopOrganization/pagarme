@@ -1,0 +1,26 @@
+.box-pagarme .payment-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd; /* Cor da borda */
+    margin-bottom: 20px;
+}
+
+.box-pagarme .payment-info-table th,
+.box-pagarme .payment-info-table td {
+    border: 1px solid #ddd; /* Cor da borda */
+    padding: 8px;
+    text-align: left;
+}
+
+.box-pagarme .payment-info-table th {
+    background-color: #f2f2f2; /* Cor de fundo do cabeçalho */
+}
+
+.box-pagarme .payment-info-table td a {
+    color: #005aad; /* Cor para links */
+    text-decoration: none;
+}
+
+.box-pagarme .payment-info-table td a:hover {
+    text-decoration: underline;
+}

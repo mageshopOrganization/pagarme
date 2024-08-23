@@ -1,0 +1,200 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2020 Magento, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+$_code = $this->getMethodCode();
+$urlCard = $this->getSkinUrl('mageshop/pagarme/js/jquery/jquery.card.js');
+$_card_number = $_code . '_number';
+$_card_token = $_code . '_token';
+$_card_name = $_code . '_name';
+$_card_exp_month = $_code . '_exp_month';
+$_card_exp_year = $_code . '_expiration_yr';
+$_card_cvv = $_code . '_cvv';
+$_card_expires_at = $_code . '_expires_at';
+$_card_document = $_code . '_document';
+$_card_installments = $_code . '_installments';
+$quote = Mage::getSingleton('checkout/session')->getQuote();
+$intallments = $this->getInstallments($quote);
+?>
+<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+    <input type="hidden" name="payment[<?php echo $_card_token; ?>]">
+    <li>
+        <div class="card-data">
+            <div class='card-wrapper'></div>
+        </div>
+    </li>
+    <li>
+        <input type="hidden" id="card_flag" class="required-entry" name="payment[card_flag]">
+        <label for="<?php echo $_card_number; ?>" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
+        <div class="input-box">
+            <input type="text" id="<?php echo $_card_number; ?>" 
+            name="payment[<?php echo $_card_number; ?>]" 
+            title="<?php echo $this->__('Credit Card Number') ?>" 
+            class="input-text required-entry validate-cardnumber" 
+            value="" 
+            maxlength="19"/>
+            <?php #nao remover os campos abaixo ?>
+            <span id="card-brand" style="text-transform: capitalize; display: block;"></span>
+            <span id="card-msg" style="color: red;clear:left; display: block;"></span>
+        </div>
+    </li>
+    <li>
+        <label for="<?php echo $_card_name ?>" class="required"><em>*</em><?php echo $this->__('Name on Card') ?></label>
+        <div class="input-box">
+            <input type="text" id="<?php echo $_card_name; ?>" 
+            name="payment[<?php echo $_card_name; ?>]" 
+            title="<?php echo $this->__('Name on Card') ?>" class="input-text" 
+            value="" />
+        </div>
+    </li>
+    <li id="<?php echo $_code ?>_type_exp_div">
+        <label for="<?php echo $_code ?>_expiration" class="required"><em>*</em><?php echo $this->__('Expiry Date') ?></label>
+        <div class="input-box">
+            <div class="v-fix">
+                <select id="<?php echo $_card_exp_month; ?>" name="payment[<?php echo $_card_exp_month; ?>]" class="required-entry validate-expirymonth">
+                    <?php foreach ($this->getCcMonths() as $k=>$v): ?>
+                        <option value="<?php echo $k?$k:'' ?>"><?php echo $v ?></option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+            <div class="v-fix">
+                <select id="<?php echo $_card_exp_year; ?>" name="payment[<?php echo $_card_exp_year; ?>]" class="required-entry validate-expiryyear">
+                    <?php foreach ($this->getCcYears() as $k=>$v): ?>
+                        <option value="<?php echo $k?$k:'' ?>"><?php echo $v ?></option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+            <input type="hidden" id="<?php echo $_card_expires_at ?>" class="input-text required-entry validate-expires_at" name="payment[<?php echo $_card_expires_at ?>]" autocomplete="off"/>
+        </div>
+    </li>
+    <li>
+        <label for="<?php echo $_card_cvv; ?>" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
+        <div class="input-box">
+            <div class="v-fix">
+                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" 
+                name="payment[<?php echo $_card_cvv; ?>]"
+                maxlength="4" class="input-text cvv required-entry validate-cvv" 
+                id="<?php echo $_card_cvv; ?>" />
+            </div>
+            <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
+        </div>
+    </li>
+    <li>
+        <div class="input-box">
+            <label for="<?php echo $_card_installments ?>" class="required"><em>*</em><?php echo $this->__('Parcelas') ?> </label><br/>
+            <select id="<?php echo $_card_installments ?>" style="width:252px;" 
+                name="payment[<?php echo $_card_installments ?>]" 
+                class="required-entry validate-installment">
+            <option>Parcela(s)</option>
+            <?php foreach ($intallments as $key => $value) : ?>
+                <?php if ($key == 0) { continue; } ?>
+                <option value="<?= ($key) ?>"><?= $value ?></option>
+            <?php endforeach; ?>
+            </select>
+        </div>
+    </li>
+    <?php if($this->helper('mageshop_pagarme/data')->getConfigData('capture_tax')): ?>
+        <li>
+            <label for="<?php echo $_card_document; ?>" class="required"><em>*</em><?php echo $this->__('CPF/CNPJ Cartão') ?></label>
+            <div class="input-box">
+                <input type="text" id="<?php echo $_card_document; ?>" 
+                name="payment[<?php echo $_card_document; ?>]" 
+                title="<?php echo $this->__('CPF/CNPJ Cartão') ?>" 
+                class="input-text validate-document" 
+                onkeyup="maskDocument(this)" 
+                maxlength="18"
+                value="" />
+            </div>
+        </li>
+    <?php endif; ?>
+</ul>
+
+<script type="text/javascript">
+    (function(){
+        let cardScript = document.createElement('script');
+        cardScript.setAttribute('src', '<?=$urlCard?>')
+        cardScript.setAttribute('id', 'cardScript')
+        document.body.appendChild(cardScript)
+
+        cardScript.addEventListener('load', function(){
+            $pagarme('#payment_form_<?php echo $_code ?>').card({
+                // a selector or DOM element for the container
+                // where you want the card to appear
+                container: '.card-wrapper', // *required*
+                formSelectors: {
+                    numberInput: 'input[id="<?php echo $_card_number; ?>"]', // optional — default input[name="number"]
+                    expiryInput: 'input[id="<?php echo $_card_expires_at ?>"]', // optional — default input[name="expiry"]
+                    cvcInput: 'input[id="<?php echo $_card_cvv; ?>"]', // optional — default input[name="cvc"]
+                    nameInput: 'input[id="<?php echo $_card_name; ?>"]', // optional - defaults input[name="name"]
+                },
+                width: 200, // optional — default 350px
+                formatting:true,
+                // Default placeholders for rendered fields - optional
+                placeholders: {
+                    number: '•••• •••• •••• ••••',
+                    name: '<?php echo $this->__('Name on Card') ?>',
+                    expiry: '••/••',
+                    cvc: '•••'
+                },
+                debug: false // optional - default false
+            });
+            $pagarme('select[id=<?php echo $_card_exp_year?>]').on('change', function(){
+                var expiry=$pagarme('input[id="<?php echo $_card_expires_at ?>"]').val();
+                var expArray=expiry.split("/");
+                expArray[1]=this.value;
+                expiry=expArray[0]+"/"+expArray[1];
+                $pagarme('input[id="<?php echo $_card_expires_at ?>"]').val(expiry);
+                $pagarme('.jp-card-expiry').html(expiry);
+            });
+            $pagarme('select[id=<?php echo $_card_exp_month?>]').on('change', function(){
+                var expiry=$pagarme('input[id="<?php echo $_card_expires_at ?>"]').val();
+                var expArray=expiry.split("/");
+                expArray[0]=this.value;
+                expiry=expArray[0]+"/"+expArray[1];
+                $pagarme('input[id="<?php echo $_card_expires_at ?>"]').val(expiry);
+                $pagarme('.jp-card-expiry').html(expiry);
+            });
+            
+        })
+    })();
+    function pagarmeInit(){
+        $pagarme("#<?php echo $_card_number;?>").on("input", function() {
+            $cardNumber = this.value;
+            if ($cardNumber.length > 5) {
+                if (CreditCardValidation.checkCredit($cardNumber)) {
+                    let flag;
+                    flag = CreditCardValidation.getCardFlag($cardNumber);
+                    if (flag !== false) {
+                        $pagarme("#card_flag").val(flag);
+                    }
+                } 
+            }
+        });
+    }
+    pagarmeInit();
+    if(typeof PCIPagarMeObj === "undefined"){
+        PCIPagarMeObj = new PCIPagarMe(<?php echo $this->helper('mageshop_pagarme/creditCard')->getConfigJs()?>);
+    }
+    PCIPagarMeObj.addCardFieldsObserver(PCIPagarMeObj);
+</script>

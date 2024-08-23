@@ -1,0 +1,96 @@
+<?php $_info = $this->getInfo(); ?>
+<?php $creditCardInfo = $this->getPaymentInfo(); ?>
+<?php $url_store = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>
+<?php $imageIcon = $url_store . 'media/mageshop/pagarme/images/logo_pagarme.svg'; ?>
+
+<div class="box-pagarme">
+    <div class="banner" style="width: 100%;
+        max-width: 245px;height: 60px;
+        background-size: 200px;
+        background-repeat: no-repeat;
+        background-image: url('<?php echo $imageIcon ?>');"></div>
+    <h2><?php echo $this->__('Payment Information:') ?></h2>
+    <?php if ($creditCardInfo && isset($creditCardInfo['charges'])) : ?>
+        <?php foreach ($creditCardInfo['charges'] as $charge) : ?>
+            <table class="payment-info-table">
+                <tr>
+                    <td><strong><?php echo $this->__('Transaction ID:') ?></strong></td>
+                    <td><?php echo $this->__($charge['last_transaction']['id']) ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Amount:') ?></strong></td>
+                    <td><?php echo $this->__($charge['amount']) ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Status:') ?></strong></td>
+                    <td><?php echo $this->__(MageShop_PagarMe_Model_System_Config_Transaction_Status::convertStatus($charge['last_transaction']['status'])) ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Created at:') ?></strong></td>
+                    <td><?php echo $this->__($charge['last_transaction']['created_at']) ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Updated at:') ?></strong></td>
+                    <td><?php echo $this->__($charge['last_transaction']['updated_at']) ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Card Brand:') ?></strong></td>
+                    <td><?php echo $this->__($charge['last_transaction']['card']['brand']) ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Card Holder Name:') ?></strong></td>
+                    <td><?php echo $this->__($charge['last_transaction']['card']['holder_name']) ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Card Last 4 Digits:') ?></strong></td>
+                    <td><?php echo $this->__($charge['last_transaction']['card']['last_four_digits']) ?></td>
+                </tr>
+                <tr>
+                    <td><strong><?php echo $this->__('Card Expiry Date:') ?></strong></td>
+                    <td><?php echo $this->__($charge['last_transaction']['card']['exp_month'] . '/' . $charge['last_transaction']['card']['exp_year']) ?></td>
+                </tr>
+            </table>
+        <?php endforeach; ?>
+    <?php endif; ?>
+    <button type="button" onclick="actionLocation('<?php echo $this->getUpdateOrderUrl($_info->getOrder()->getId(), $_info->getOrder()->getPayment()->getPagarmeOrderId()) ?>'); Element.show('loading-mask')" class="force-update"><?= $this->__('Force Order Update') ?></button>
+</div>
+
+<div style="clear:both; margin-bottom: 20px"></div>
+
+
+<style>
+    .box-credit-card ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .box-credit-card ul li {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .box-credit-card ul li:last-child {
+        border-bottom: none;
+    }
+
+    .box-credit-card ul li strong {
+        font-weight: bold;
+        color: #65a300;
+    }
+
+    .box-credit-card ul li img {
+        display: block;
+        max-width: 100%;
+        margin-top: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script>
+    function actionLocation(url) {
+        Element.show('loading-mask');
+        window.location.href = url;
+    }
+</script>

@@ -1,0 +1,557 @@
+<?xml version="1.0"?>
+<config>
+  <sections>
+    <payment>
+      <groups>
+        <hint>
+          <frontend_model>mageshop_pagarme/adminhtml_system_config_fieldset_hint</frontend_model>
+          <sort_order>1</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+        </hint>
+
+        <mageshop_pagarme translate="label" module="mageshop_pagarme">
+          <label>
+          <![CDATA[
+            <div style="background:url('/media/mageshop/pagarme/images/logo_pagarme.svg') no-repeat left center;padding-left: 110px;background-size: 100px;min-height:42px;"> 
+             Configuração 
+            </div> 
+          ]]>
+          </label>
+          <frontend_type>text</frontend_type>
+          <sort_order>2</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <fields>
+            <type_api translate="label">
+              <label>Tipo de Integração</label>
+              <frontend_type>select</frontend_type>
+              <source_model>mageshop_pagarme/system_config_source_typeApi</source_model>
+              <sort_order>0</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+          </type_api>
+          <apphub>
+              <label>Integração Pagar.me</label>
+              <frontend_model>mageshop_pagarme/adminhtml_system_config_fieldset_hub</frontend_model>
+              <frontend_type>hidden</frontend_type>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <depends>
+                  <type_api>HUBAPI</type_api>
+              </depends>
+          </apphub>
+            <webhook>
+              <label>A URL para configuração webhook:</label>
+              <frontend_model>mageshop_pagarme/adminhtml_system_config_fieldset_webhook</frontend_model>
+              <frontend_type>hidden</frontend_type>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <depends>
+                <type_api>API</type_api>
+              </depends>
+            </webhook>
+            <secret_key translate="label">
+              <label>Secret Key</label>
+              <frontend_type>obscure</frontend_type>
+              <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+              <sort_order>2</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <depends>
+                <type_api>API</type_api>
+              </depends>
+              <comment><![CDATA[ Chave Secreta é obtido no seu painel do pagar.me. Ao salvar esta página, ele será criptografado, aparentando ter um tamanho menor.]]></comment>
+            </secret_key>
+            <public_key translate="label">
+              <label>Public Key</label>
+              <frontend_type>obscure</frontend_type>
+              <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <type_api>API</type_api>
+              </depends>
+              <comment><![CDATA[ Chave Secreta é obtido no seu painel do pagar.me. Ao salvar esta página, ele será criptografado, aparentando ter um tamanho menor.]]></comment>
+            </public_key>
+            <create_order translate="label">
+              <label>Sempre cria pedidos</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <comment><![CDATA[ Criar pedidos no Magento mesmo com falha no pagamento ]]></comment>
+            </create_order>
+
+          </fields>
+        </mageshop_pagarme>
+
+        <mageshop_pagarme_cc translate="label" module="mageshop_pagarme">
+          <label>
+          <![CDATA[
+            <div style="background:url('/media/mageshop/pagarme/images/logo_pagarme.svg') no-repeat left center;padding-left: 110px;background-size: 100px;min-height:42px;"> 
+             Cartão de Crédito 
+            </div> 
+          ]]>
+          </label>
+          <frontend_type>text</frontend_type>
+          <sort_order>3</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <fields>
+            <active translate="label">
+              <label>Enable this payment method</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </active>
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>2</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+              <depends>
+                <active>1</active>
+              </depends>
+            </title>
+            <transaction_type translate="label tooltip">
+              <label>Transaction Type</label>
+              <tooltip>The transaction type that will be sent to the Rede.</tooltip>
+              <frontend_type>select</frontend_type>
+              <source_model>mageshop_pagarme/system_config_transaction_types</source_model>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <depends>
+                <active>1</active>
+              </depends>
+            </transaction_type>
+            <order_status translate="label">
+              <label>New Order Status</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_order_status_new</source_model>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+            </order_status>
+            <customer_cpf_attribute>
+              <label>CPF do cliente</label>
+              <frontend_type>select</frontend_type>
+              <source_model>mageshop_pagarme/system_config_transaction_cpf</source_model>
+              <sort_order>5</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <comment><![CDATA[Se sua loja já tem um campo personalizado para coletar o CPF do cliente, você pode selecionar essa opção agora. Caso contrário, você pode escolher a opção "Solicitar junto com os outros dados do pagamento" para garantir que todas as informações relevantes sejam coletadas. É importante notar que, se um CNPJ for informado no campo designado, ainda será necessário coletar o CPF para concluir a transação com cartão.]]></comment>
+              <depends>
+                <active>1</active>
+              </depends>
+            </customer_cpf_attribute>
+            <capture_tax translate="label">
+              <label>Capturar CPF no formulário de pagamento?</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>6</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+            </capture_tax>
+            <statement_descriptor translate="label">
+              <label>Texto na fatura</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>7</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+              <comment>Texto exibido na fatura do cartão. Max: 22 caracteres para clientes Gateway;
+                13 para clientes PSP</comment>
+              <depends>
+                <active>1</active>
+              </depends>
+            </statement_descriptor>
+            <installments translate="label">
+              <label>Quantidades de parcelas</label>
+              <frontend_type>select</frontend_type>
+              <source_model>mageshop_pagarme/system_config_source_installments</source_model>
+              <sort_order>8</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <validate>required-entry validate-number integer</validate>
+              <depends>
+                <active>1</active>
+              </depends>
+            </installments>
+            <min_installment translate="label">
+              <label>Valor Mínimo de Parcela</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>9</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <validate>required-entry validate-number</validate>
+              <depends>
+                <active>1</active>
+              </depends>
+            </min_installment>
+
+            <discount_active translate="label">
+              <label>Oferecer desconto para pagamento por parcela?</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>10</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+            </discount_active>
+
+            <discount_percentage translate="label">
+              <label>Defina o desconto (em %)</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>11</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <validate>required-entry validate-number</validate>
+              <depends>
+                <discount_active>1</discount_active>
+              </depends>
+              <comment><![CDATA[]]></comment>
+            </discount_percentage>
+
+            <discount_installment translate="label">
+              <label>Defina o número de parcelas com desconto</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>12</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <validate>required-entry validate-number</validate>
+              <depends>
+                <discount_active>1</discount_active>
+              </depends>
+              <comment><![CDATA[]]></comment>
+            </discount_installment>
+
+            <discount_label translate="label">
+              <label>Legenda Padrão para o Desconto</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>13</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <discount_active>1</discount_active>
+              </depends>
+              <comment><![CDATA[]]></comment>
+            </discount_label>
+
+
+            <interest_active translate="label">
+              <label>Definir parcelas com juros?</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>14</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+              <comment>
+                <![CDATA[
+                  Você pode definir cada parcela com uma porcentagem. 
+                  Se essa opção estiver desativada, a configuração de parcelamento da sua conta 
+                  <a href="pagar.me">pagar.me</a> será aplicada.
+                ]]>
+              </comment>
+            </interest_active>
+            <installment_interest translate="label">
+              <label>Juros Parcelados</label>
+              <frontend_model>mageshop_pagarme/adminhtml_form_field_installments</frontend_model>
+              <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+              <sort_order>15</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <interest_active>1</interest_active>
+              </depends>
+            </installment_interest>
+            <antifraud translate="label">
+              <label>Antifraude</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>16</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <validate>required-entry</validate>
+              <comment><![CDATA[Indica se o pedido passará ou não pelo antifraude. Se não for enviado, será considerada a configuração da conta]]></comment>
+              <depends>
+                <active>1</active>
+              </depends>
+            </antifraud>
+          </fields>
+        </mageshop_pagarme_cc>
+
+        <mageshop_pagarme_pix translate="label" module="mageshop_pagarme">
+          <label>
+        <![CDATA[
+          <div style="background:url('/media/mageshop/pagarme/images/logo_pagarme.svg') no-repeat left center;padding-left: 110px;background-size: 100px;min-height:42px;"> 
+            Pix
+          </div> 
+        ]]>
+        </label>
+          <frontend_type>text</frontend_type>
+          <sort_order>4</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <fields>
+            <active translate="label">
+              <label>Enable this payment method</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </active>
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>2</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+              <depends>
+                <active>1</active>
+              </depends>
+            </title>
+            <order_status translate="label">
+              <label>New Order Status</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_order_status_new</source_model>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+            </order_status>
+            <expiration_qrcode translate="label">
+              <label>Qrcode expiration time (seconds)</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+              <validate>required-entry validate-number</validate>
+            </expiration_qrcode>
+            <instructions_checkout translate="label">
+              <label>Instruções na página de checkout </label>
+              <frontend_type>textarea</frontend_type>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+            </instructions_checkout>
+          </fields>
+        </mageshop_pagarme_pix>
+
+        <mageshop_pagarme_bankslip translate="label" module="mageshop_pagarme">
+          <label>
+          <![CDATA[
+            <div style="background:url('/media/mageshop/pagarme/images/logo_pagarme.svg') no-repeat left center;padding-left: 110px;background-size: 100px;min-height:42px;"> 
+              Boleto
+            </div> 
+          ]]>
+          </label>
+          <frontend_type>text</frontend_type>
+          <sort_order>5</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <fields>
+
+            <active translate="label">
+              <label>Enable this payment method</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+            </active>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>2</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+              <validate>required-entry</validate>
+              <depends>
+                <active>1</active>
+              </depends>
+            </title>
+
+            <order_status translate="label">
+              <label>New Order Status</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_order_status_new</source_model>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+            </order_status>
+
+            <bank translate="label">
+              <label>Bank</label>
+              <frontend_type>select</frontend_type>
+              <source_model>mageshop_pagarme/system_config_source_bank</source_model>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+            </bank>
+
+            <type translate="label">
+              <label>Type Bankslip</label>
+              <frontend_type>select</frontend_type>
+              <source_model>mageshop_pagarme/system_config_source_typeBankslip</source_model>
+              <sort_order>5</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+            </type>
+
+            <expiration_days translate="label">
+              <label>Default expiration days</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>6</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+              <validate>required-entry validate-number</validate>
+            </expiration_days>
+            
+            <instructions_checkout translate="label">
+              <label>Instruções na página de checkout </label>
+              <frontend_type>textarea</frontend_type>
+              <sort_order>7</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+            </instructions_checkout>
+
+            <instructions translate="label">
+              <label>Instruções na página de checkout </label>
+              <frontend_type>textarea</frontend_type>
+              <sort_order>8</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>0</show_in_store>
+              <depends>
+                <active>1</active>
+              </depends>
+            </instructions>
+          </fields>
+        </mageshop_pagarme_bankslip>
+
+      </groups>
+    </payment>
+
+    <sales>
+      <groups>
+        <mageshop_pagarme translate="label" module="mageshop_pagarme">
+          <label>
+            <![CDATA[
+              <div style="background:url('/media/mageshop/pagarme/images/logo_pagarme.svg') no-repeat left center;padding-left: 110px;background-size: 100px;min-height:42px;"> 
+                Plataform Integration
+              </div> 
+            ]]>
+            </label>
+          <frontend_type>text</frontend_type>
+          <sort_order>1</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <fields>
+            <hint>
+              <frontend_model>mageshop_pagarme/adminhtml_system_config_fieldset_hint</frontend_model>
+              <sort_order>1000</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </hint>
+            <plataform_integration translate="label">
+              <label>Plataform Integration</label>
+              <frontend_type>text</frontend_type>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </plataform_integration>
+          </fields>
+        </mageshop_pagarme>
+      </groups>
+    </sales>
+
+  </sections>
+</config>

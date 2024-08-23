@@ -1,0 +1,10 @@
+<?php
+
+$method = $this->payment()->getMethod();
+if($method == MageShop_PagarMe_Model_Method_Cc::CODE_PAYMENT){
+    echo $this->getChildHtml('pagarme_creditcard');
+}elseif($method == MageShop_PagarMe_Model_Method_Pix::CODE_PAYMENT){
+    echo $this->getChildHtml('pagarme_pix');
+}elseif($method == MageShop_PagarMe_Model_Method_Bankslip::CODE_PAYMENT){
+    echo $this->getChildHtml('pagarme_bankslip');
+}

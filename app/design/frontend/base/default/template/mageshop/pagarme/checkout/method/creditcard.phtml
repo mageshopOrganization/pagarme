@@ -1,0 +1,15 @@
+<?php if ($this->success()): ?>
+<div class="container_payment_mageshop">
+    <div class="header_payment_mageshop">
+        <div class="icon_status_payment_mageshop">
+            <img src="<?php echo $this->getSvg("logo_pagarme")?>">
+        </div>
+        <h3><?php echo $this->__("Seu pedido foi realizado com sucesso") ?></h3>
+        <p><?php echo $this->__("Pague com <b>cartão de crédito</b> de forma segura e conveniente!") ?></p>
+    </div>
+    <div class="footer_payment_mageshop">
+        <p><?php echo $this->__("O status do seu pedido será atualizado automaticamente.") ?></p>
+        <p><?php echo $this->__("Em caso de dúvidas, entre em contato com nosso suporte.") ?></p>
+    </div>
+</div>
+<?php endif ?>

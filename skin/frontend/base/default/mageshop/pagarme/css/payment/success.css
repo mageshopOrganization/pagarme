@@ -1,0 +1,190 @@
+.container_payment_mageshop {
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.header_payment_mageshop {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.icon_status_payment_mageshop img {
+    max-width: 100px;
+    margin: auto;
+}
+
+.header_payment_mageshop h3 {
+    font-size: 24px;
+    color: #65a300;
+    margin: 10px 0;
+}
+
+.header_payment_mageshop span,
+.header_payment_mageshop p {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.header_payment_mageshop p b {
+    color: #333;
+}
+
+.body_payment_mageshop {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os itens se ajustem em telas menores */
+    align-items: center;
+    background: #fbfbfb;
+    border: 1px solid #DDD;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    padding: 20px; /* Adiciona padding para um layout mais espaçado em telas menores */
+}
+
+.pix_mageshop, .boleto_mageshop {
+    flex: 1;
+    margin: 10px;
+    text-align: center; /* Centraliza o conteúdo */
+}
+
+.boleto_mageshop img {
+    max-width: 100%;
+}
+
+.pix_mageshop img {
+    max-width: 100%;
+    margin: 20px auto;
+}
+
+.step_payment_mageshop {
+    flex: 2;
+    width: 100%; /* Garante que a lista ocupe toda a largura disponível em telas pequenas */
+    margin-top: 20px; /* Adiciona espaço entre a lista e as imagens em telas pequenas */
+}
+
+.step_payment_mageshop ul {
+    list-style: none;
+    padding: 0;
+}
+
+.step_payment_mageshop li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.step_payment_mageshop .icon_step {
+    width: 40px;
+    height: 40px;
+    background-color: #ebebeb;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step_payment_mageshop p {
+    font-size: 16px;
+    color: #222;
+}
+
+.footer_payment_mageshop {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #111;
+}
+
+.step_payment_mageshop .icon_step img {
+    width: 100%;
+    max-width: 25px;
+}
+
+.boleto_mageshop a {
+    line-height: 40px;
+    text-align: center;
+    background: #65a300;
+    width: auto;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #FFF;
+    display: inline-block; /* Garante que o botão se comporte corretamente em telas pequenas */
+}
+
+.boleto_mageshop p {
+    margin-top: 10px;
+}
+
+.boleto_mageshop button {
+    padding: 5px;
+    background: #fbfbfb;
+    color: #65a300;
+    border-radius: 4px;
+    border: 1px solid;
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+.boleto_mageshop button:hover{
+    background: #65a300;
+    color: #fbfbfb;
+}
+/* Consultas de mídia para diferentes tamanhos de tela */
+@media (max-width: 768px) {
+    .header_payment_mageshop h3 {
+        font-size: 20px;
+    }
+
+    .header_payment_mageshop span,
+    .header_payment_mageshop p {
+        font-size: 14px;
+    }
+
+    .step_payment_mageshop p {
+        font-size: 14px;
+    }
+
+    .icon_status_payment_mageshop img {
+        max-width: 80px;
+    }
+
+    .step_payment_mageshop .icon_step {
+        width: 30px;
+        height: 30px;
+    }
+
+    .step_payment_mageshop .icon_step img {
+        max-width: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header_payment_mageshop h3 {
+        font-size: 18px;
+    }
+
+    .header_payment_mageshop span,
+    .header_payment_mageshop p {
+        font-size: 12px;
+    }
+
+    .step_payment_mageshop p {
+        font-size: 12px;
+    }
+
+    .icon_status_payment_mageshop img {
+        max-width: 60px;
+    }
+
+    .step_payment_mageshop .icon_step {
+        width: 25px;
+        height: 25px;
+    }
+
+    .step_payment_mageshop .icon_step img {
+        max-width: 15px;
+    }
+}

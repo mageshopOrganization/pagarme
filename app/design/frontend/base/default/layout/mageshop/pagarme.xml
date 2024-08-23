@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <onestepcheckout_index_index translate="label">
+        <reference name="head">
+            <action method="addJs"><script>mageshop/pagarme/pagarme.js</script></action>
+            <action method="addItem" ifconfig="payment/mageshop_pagarme_cc/active">
+                <type>skin_js</type>
+                <name>mageshop/pagarme/js/card/creditcard.js</name>
+            </action>
+            <action method="addItem" ifconfig="payment/mageshop_pagarme_cc/active">
+                <type>skin_js</type>
+                <name>mageshop/pagarme/js/form-pagarme.js</name>
+            </action>
+            <action method="addItem" ifconfig="payment/mageshop_pagarme_cc/active">
+                <type>skin_js</type>
+                <name>mageshop/pagarme/js/jquery/jquery-2.1.4.min.js</name>
+            </action>
+            <action method="addItem" ifconfig="payment/mageshop_pagarme_cc/active"><type>skin_css</type><name>mageshop/pagarme/css/payment/creditcard.css</name></action>
+        </reference>
+    </onestepcheckout_index_index>
+
+    <checkout_onepage_index translate="label">
+        <reference name="head">
+            <action method="addJs"><script>mageshop/pagarme/pagarme.js</script></action>
+            <action method="addItem" ifconfig="payment/mageshop_pagarme_cc/active">
+                <type>skin_js</type>
+                <name>mageshop/pagarme/js/card/creditcard.js</name>
+            </action>
+            <action method="addItem" ifconfig="payment/mageshop_pagarme_cc/active">
+                <type>skin_js</type>
+                <name>mageshop/pagarme/js/form-pagarme.js</name>
+            </action>
+            <action method="addItem" ifconfig="payment/mageshop_pagarme_cc/active">
+                <type>skin_js</type>
+                <name>mageshop/pagarme/js/jquery/jquery-2.1.4.min.js</name>
+            </action>
+            <action method="addItem" ifconfig="payment/mageshop_pagarme_cc/active"><type>skin_css</type><name>mageshop/pagarme/css/payment/creditcard.css</name></action>
+        </reference>
+    </checkout_onepage_index>
+
+    <checkout_onepage_success translate="label">
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>mageshop/pagarme/css/payment/success.css</name></action>
+        </reference>
+        <reference name="content">
+            <reference name="checkout.success">
+                <block type="mageshop_pagarme/payment_success" name="mageshop_pagarme.success" template="mageshop/pagarme/checkout/success.phtml" >
+                    <block type="mageshop_pagarme/payment_method_creditCard" name="mageshop_pagarme.creditcard" as="pagarme_creditcard" template="mageshop/pagarme/checkout/method/creditcard.phtml"/>
+                    <block type="mageshop_pagarme/payment_method_pix" name="mageshop_pagarme.pix" as="pagarme_pix" template="mageshop/pagarme/checkout/method/pix.phtml"/>
+                    <block type="mageshop_pagarme/payment_method_bankslip" name="mageshop_pagarme.bankslip" as="pagarme_bankslip" template="mageshop/pagarme/checkout/method/bankslip.phtml"/>
+                </block>
+            </reference>
+        </reference>
+    </checkout_onepage_success>
+  
+    <sales_order_view>
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>mageshop/pagarme/css/payment/info.css</name></action>
+        </reference>
+    </sales_order_view>
+</layout>

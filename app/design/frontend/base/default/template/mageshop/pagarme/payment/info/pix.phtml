@@ -1,0 +1,50 @@
+<?php $order = $this->getInfo()->getOrder(); ?>
+<?php $title = $this->getMethod()->getTitle(); ?>
+<?php $url_store = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>
+<?php $imageIcon = $url_store . 'media/mageshop/pagarme/images/logo_pagarme.svg'; ?>
+
+<style>
+    .mageshop_pagarme {
+        width: auto;
+        max-width: 200px;
+        display: flex;
+        align-items: center;
+    }
+
+    .mageshop_pagarme img {
+        width: 45px;
+        margin-right: 10px;
+    }
+
+    .mageshop_pagarme p {
+        margin-left: 10px;
+    }
+</style>
+<div class="box-pagarme">
+    <div class="mageshop_pagarme">
+        <img src="<?php echo $imageIcon ?>" alt="<?php echo $title; ?>" width="120px">
+        <p><?php echo $title; ?></p>
+    </div>
+    <br>
+
+    <?php if ($order) : ?>
+        <?php $boletoInfo = $this->getPaymentInfo(); ?>
+        <?php if ($pixInformation && isset($pixInformation['charges'])) : ?>
+            <?php foreach ($pixInformation['charges'] as $charge) : ?>
+                <table class="payment-info-table">
+                    <tr>
+                        <td><strong><?php echo $this->__('Status:') ?></strong></td>
+                        <td><?php echo $this->__(MageShop_PagarMe_Model_System_Config_Transaction_Status::convertStatus($charge["last_transaction"]['status'])) ?></td>
+                    </tr>
+                    <?php if ($charge["last_transaction"]['status'] == MageShop_PagarMe_Model_System_Config_Transaction_Status::WAITING_PAYMENT) : ?>
+                        <tr>
+                            <td><strong><?php echo $this->__('QrCode:') ?></strong></td>
+                            <td><a href="<?php echo $this->__($charge["last_transaction"]['qr_code_url']) ?>"><img src="<?php echo $this->__($charge["last_transaction"]['qr_code_url']) ?>" alt="" style="width:100%;max-width:350px;"></a></td>
+                        </tr>
+                    <?php endif; ?>
+                </table>
+            <?php endforeach; ?>
+
+        <?php endif; ?>
+    <?php endif ?>
+</div>

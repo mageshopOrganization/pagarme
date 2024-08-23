@@ -1,0 +1,73 @@
+<?php $_info = $this->getInfo(); ?>
+<?php $boletoInfo = $this->getPaymentInfo(); ?>
+<?php $url_store = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>
+<?php $imageIcon = $url_store . 'media/mageshop/pagarme/images/logo_pagarme.svg'; ?>
+<div class="box-pagarme">
+    <div class="banner" style="width: 100%;
+    max-width: 245px;height: 60px;
+    background-size: 200px;
+    background-repeat: no-repeat;
+    background-image: url('<?php echo $imageIcon ?>');"></div>
+    <h3 style="color: #005aad;
+        text-align: left;
+        font-weight: 700;
+        font-size: 17px;
+        border-bottom: 1px solid;
+        padding-left: 10px;
+        width: auto;"><?= $this->__("Boleto - pagar.me") ?></h3>
+    <h2><?php echo $this->__('Payment Information:') ?></h2>
+    <?php if ($boletoInfo && isset($boletoInfo['charges'])) : ?>
+        <?php foreach ($boletoInfo['charges'] as $charge) : ?>
+            <table class="payment-info-table">
+                <tr>
+                    <th><?php echo $this->__('Transaction ID:') ?></th>
+                    <td><?php echo $this->__($charge['last_transaction']['id']) ?></td>
+                </tr>
+                <tr>
+                    <th><?php echo $this->__('Amount:') ?></th>
+                    <td><?php echo $this->__($charge['last_transaction']['amount']) ?></td>
+                </tr>
+                <tr>
+                    <th><?php echo $this->__('Status:') ?></th>
+                    <td><?php echo $this->__(MageShop_PagarMe_Model_System_Config_Transaction_Status::convertStatus($charge['last_transaction']['status'])) ?></td>
+                </tr>
+                <tr>
+                    <th><?php echo $this->__('Currency:') ?></th>
+                    <td><?php echo $this->__($charge['last_transaction']['currency']) ?></td>
+                </tr>
+                <tr>
+                    <th><?php echo $this->__('Created at:') ?></th>
+                    <td><?php echo $this->__($charge['last_transaction']['created_at']) ?></td>
+                </tr>
+                <tr>
+                    <th><?php echo $this->__('Updated at:') ?></th>
+                    <td><?php echo $this->__($charge['last_transaction']['updated_at']) ?></td>
+                </tr>
+                <?php if ($charge['last_transaction']['status'] == MageShop_PagarMe_Model_System_Config_Transaction_Status::WAITING_PAYMENT) : ?>
+                    <tr>
+                        <th><?php echo $this->__('Boleto URL:') ?></th>
+                        <td><a target="_blank" href="<?php echo $this->__($charge['last_transaction']['url']) ?>"><?php echo $this->__($charge['last_transaction']['url']) ?></a></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->__('Our Number:') ?></th>
+                        <td><?php echo $this->__($charge['last_transaction']['nosso_numero']) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->__('Bank:') ?></th>
+                        <td><?php echo $this->__($charge['last_transaction']['bank']) ?></td>
+                    </tr>
+                <?php endif; ?>
+            </table>
+        <?php endforeach; ?>
+
+    <?php endif; ?>
+    <button type="button" onclick="actionLocation('<?php echo $this->getUpdateOrderUrl($_info->getOrder()->getId(), $_info->getOrder()->getPayment()->getPagarmeOrderId()) ?>'); Element.show('loading-mask')" class="force-update"><?= $this->__('Force Order Update') ?></button>
+</div>
+<div style="clear:both; margin-bottom: 20px"></div>
+
+<script>
+    function actionLocation(url) {
+        Element.show('loading-mask');
+        window.location.href = url;
+    }
+</script>

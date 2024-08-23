@@ -1,0 +1,43 @@
+<?php if($this->success()): ?>
+<div class="container_payment_mageshop">
+    <div class="header_payment_mageshop">
+        <div class="icon_status_payment_mageshop">
+            <img src="<?php echo $this->getSvg("logo_pagarme") ?>">
+        </div>
+        <h3><?php echo $this->__("Seu pedido foi realizado com sucesso") ?></h3>
+        <p><?php echo $this->__("Pague com <b>PIX</b> em qualquer dia e a qualquer hora!") ?></p>
+        <p><?php echo $this->__("O pagamento é seguro, instantâneo, prático e pode ser feito em poucos segundos.") ?></p>
+    </div>
+    <div class="body_payment_mageshop">
+        <div class="pix_mageshop">
+            <img src="<?php echo $this->getCharge()->getLastTransaction("qr_code_url"); ?>" alt="">
+        </div>
+        <div class="step_payment_mageshop">
+            <ul>
+                <li>
+                    <div class="icon_step">
+                        <img src="<?php echo $this->getSvg("phone")?>">
+                    </div>
+                    <p><?php echo $this->__("1. Abra o App do seu banco ou instituição financeira e entre no ambiente Pix.") ?></p>
+                </li>
+                <li>
+                    <div class="icon_step">
+                        <img src="<?php echo $this->getSvg("qrcode")?>">
+                    </div>
+                    <p><?php echo $this->__("2. Escolha a opção <b>Pagar com QR Code</b> e escaneie o código ao lado.") ?></p>
+                </li>
+                <li>
+                    <div class="icon_step">
+                        <img src="<?php echo $this->getSvg("check-double")?>">
+                    </div>
+                    <p><?php echo $this->__("3. Confirme as informações e finalize o pagamento.") ?></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer_payment_mageshop">
+        <p><?php echo $this->__("Após o pagamento, podemos levar alguns segundos para a confirmação do seu pedido.") ?></p>
+        <p><?php echo $this->__("Não se preocupe, você será avisado assim que confirmado!") ?></p>
+    </div>
+</div>
+<?php endif ?>

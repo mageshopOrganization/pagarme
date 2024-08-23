@@ -1,0 +1,46 @@
+<?php
+/**
+ * @var $this MageShop_PagarMe_Block_Adminhtml_System_Config_Fieldset_Hint
+ */
+?>
+<div class="box">
+    <!-- Sua página HTML -->
+    <div class="url-box" id="url-box" style="background-color: #f2f2f2;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    max-width: 500px;
+    text-align: center;
+    font-family: Arial, sans-serif;">
+        <span>
+            <?php echo $this->helper('mageshop_pagarme')->__('A URL para configuração webhook:'); ?>  
+        </span>
+        <span id="url-span" style="display: block;
+    margin-top: 10px;
+    font-weight: bold;">
+            <?php echo $this->helper('mageshop_pagarme')->__($this->helper('mageshop_pagarme')->getUrlWebHook()); ?>
+        </span>
+        <br><br>
+        <button id="botao-copiar" style="margin-top: 0px;
+        padding: 3px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;" value="<?php echo $this->helper('mageshop_pagarme')->__($this->helper('mageshop_pagarme')->getUrlWebHook()); ?>" type="button">Copiar URL</button>
+    </div>
+</div>
+
+<script>
+    document.getElementById('botao-copiar').addEventListener('click', function() {
+        // Copia a URL para a área de transferência (pode ser adaptado conforme necessário)
+        var url = document.getElementById('botao-copiar').value;
+        navigator.clipboard.writeText(url).then(function() {
+            alert('URL copiada com sucesso!');
+        }).catch(function(err) {
+            alert('Erro ao copiar a URL: ', err);
+        });
+    });
+</script>
