@@ -549,6 +549,7 @@ class MageShop_PagarMe_Model_Orders_Transaction
         $order->cancel();
         $this->addHistoryCommentOrder($order, $this->getComment($status));
         $this->_voidTransaction($order);
+        $this->_sendEmailCancel($order);
     }
     protected function _refund($order, $status)
     {
@@ -603,6 +604,22 @@ class MageShop_PagarMe_Model_Orders_Transaction
         $invoice->sendEmail();
         $invoice->setEmailSent(true);
         return $invoice;
+    }
+
+    protected function _sendEmailCancel($order)
+    {
+        $sendEmail = false;
+        if($order->getPayment()->getMethod() === MageShop_PagarMe_Model_Method_Cc::CODE_PAYMENT){
+            $sendEmail = (bool) $this->_getHelper()->getConfigData('email_canceled','mageshop_pagarme_cc');
+        }else if($order->getPayment()->getMethod() === MageShop_PagarMe_Model_Method_Pix::CODE_PAYMENT) {
+            $sendEmail = (bool) $this->_getHelper()->getConfigData('email_canceled','mageshop_pagarme_pix');
+        }else if($order->getPayment()->getMethod() === MageShop_PagarMe_Model_Method_Bankslip::CODE_PAYMENT){
+            $sendEmail = (bool) $this->_getHelper()->getConfigData('email_canceled','mageshop_pagarme_bankslip');
+        }
+        if($sendEmail){
+            // Envia o e-mail de atualização para o cliente
+            $order->sendOrderUpdateEmail(true, 'Seu pedido foi cancelado.');
+        }
     }
     protected function _resourceTransaction($object)
     {

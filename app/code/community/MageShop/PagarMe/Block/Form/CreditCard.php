@@ -50,6 +50,7 @@ class MageShop_PagarMe_Block_Form_CreditCard extends Mage_Payment_Block_Form
       $dataInterest = unserialize($dataInterest);
       $value_discount = 0;
       $percentage = 0;
+      $installmentInterest = [];
       if($_discount_helper->getDiscountActiveCreditCard()){
         $percentage = $_discount_helper->getDiscountPercentageCreditCard();
         if ($_discount_helper->percentage()) {
