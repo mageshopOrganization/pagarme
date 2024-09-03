@@ -4,7 +4,6 @@
 ## Pagar.me + Mageshop
 | <img src="https://github.com/csvitor/MageShop_PagarMe/assets/100157056/1b1bba88-9e91-409f-8857-753dcef634bf" alt="Imagem 1" width="50%">| <img src="https://mageshop.com.br/pages/login/biblioteca/imagens/mageshop3.svg" alt="Imagem 1" width="100%"> | <img src="https://github.com/csvitor/MageShop_Belluno/assets/100157056/eb538740-3ec6-43ba-b098-24eb2509bc5b" alt="Imagem 1" width="50%"> |
 | --- | --- | --- |
-| O MELHOR MEIO DE PAGAMENTO PARA VOCÊ | PLATAFORMA | CHECKOUT TRANSPARENTE |
 
 ## Como contribuir
 
