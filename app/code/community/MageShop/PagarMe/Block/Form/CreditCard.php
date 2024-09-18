@@ -77,7 +77,7 @@ class MageShop_PagarMe_Block_Form_CreditCard extends Mage_Payment_Block_Form
           $valuePortion2f = number_format($valuePortion, 2, ",", ".");
         }
         if ($times == 1) {
-          if ($installmentInterest[0] == 0 || $installmentInterest[0] == null) {
+          if (!isset($installmentInterest[0]) || $installmentInterest[0] == 0 || $installmentInterest[0] == null) {
             $arrayInstallments[$times] = $this->__("1x de R$$valuePortion2f%s sem juros", $discounLabel);
           } else {
             $interest = $valuePortion * ($installmentInterest[0] / 100);

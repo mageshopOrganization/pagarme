@@ -1,11 +1,12 @@
-<?php 
+<?php
 
-class MageShop_PagarMe_Block_Payment_Method extends Mage_Payment_Block_Info{
+class MageShop_PagarMe_Block_Payment_Method extends Mage_Payment_Block_Info
+{
 
     private $order;
     private $transaction;
     private $charge;
-    
+
     public function _construct()
     {
         parent::_construct();
@@ -14,23 +15,31 @@ class MageShop_PagarMe_Block_Payment_Method extends Mage_Payment_Block_Info{
     public function initOrder()
     {
         $this->order();
-        $this->setTransaction($this->transaction());
-        $this->setCharge($this->charge());
+        if ($this->isPagarMe()) {
+            $this->setTransaction($this->transaction());
+            $this->setCharge($this->charge());
+        }
         return $this;
     }
     public function order()
     {
-        if(!$this->order){
+        if (!$this->order) {
             $this->order = Mage::registry('current_order');
         }
         return $this->order;
     }
 
+    public function isPagarMe()
+    {
+        return $this->payment()->getMethod() == MageShop_PagarMe_Model_Method_Cc::CODE_PAYMENT
+            || $this->payment()->getMethod() == MageShop_PagarMe_Model_Method_Pix::CODE_PAYMENT
+            || $this->payment()->getMethod() == MageShop_PagarMe_Model_Method_Bankslip::CODE_PAYMENT;
+    }
     public function payment()
     {
         return $this->order()->getPayment();
     }
-    
+
     public function additionalInformation($key = null)
     {
         return $this->payment()->getAdditionalInformation($key);
@@ -90,12 +99,12 @@ class MageShop_PagarMe_Block_Payment_Method extends Mage_Payment_Block_Info{
     {
         return (bool) $this->getCharge()->getLastTransaction("success");
     }
- 
+
     public function getImg($name)
     {
         return $this->getSkinUrlPagarMe($this->__("mageshop/pagarme/images/%s", $name));
     }
-    
+
     public function getSvg($name)
     {
         return $this->getSkinUrlPagarMe($this->__("mageshop/pagarme/images/%s.svg", $name));
