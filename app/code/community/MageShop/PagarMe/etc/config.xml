@@ -2,7 +2,7 @@
 <config>
   <modules>
     <MageShop_PagarMe>
-      <version>1.0.0</version>
+      <version>1.0.1</version>
     </MageShop_PagarMe>
   </modules>
   <global>
@@ -71,7 +71,55 @@
       <mageshop_pagarme>
         <class>MageShop_PagarMe_Block</class>
       </mageshop_pagarme>
+      <sales>
+        <rewrite>
+          <order_totals>MageShop_PagarMe_Block_Sales_Order_Totals</order_totals>
+        </rewrite>
+      </sales>
+      <adminhtml>
+        <rewrite>
+          <sales_order_totals>MageShop_PagarMe_Block_Adminhtml_Order_Totals</sales_order_totals>
+        </rewrite>
+      </adminhtml>
     </blocks>
+    <fieldsets>
+      <sales_convert_quote_address>
+        <pagar_me_interest>
+          <to_order>*</to_order>
+        </pagar_me_interest>
+        <pagar_me_base_interest>
+          <to_order>*</to_order>
+        </pagar_me_base_interest>
+        <pagar_me_discount>
+          <to_order>*</to_order>
+        </pagar_me_discount>
+        <pagar_me_base_discount>
+          <to_order>*</to_order>
+        </pagar_me_base_discount>
+      </sales_convert_quote_address>
+      <sales_convert_order>
+        <pagar_me_interest>
+          <to_invoice>*</to_invoice>
+          <to_shipment>*</to_shipment>
+          <to_cm>*</to_cm>
+        </pagar_me_interest>
+        <pagar_me_base_interest>
+          <to_invoice>*</to_invoice>
+          <to_shipment>*</to_shipment>
+          <to_cm>*</to_cm>
+        </pagar_me_base_interest>
+        <pagar_me_discount>
+          <to_invoice>*</to_invoice>
+          <to_shipment>*</to_shipment>
+          <to_cm>*</to_cm>
+        </pagar_me_discount>
+        <pagar_me_base_discount>
+          <to_invoice>*</to_invoice>
+          <to_shipment>*</to_shipment>
+          <to_cm>*</to_cm>
+        </pagar_me_base_discount>
+      </sales_convert_order>
+    </fieldsets>
   </global>
   <frontend>
     <routers>

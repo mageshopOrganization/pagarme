@@ -33,7 +33,7 @@ class MageShop_PagarMe_Model_Quote_Address_Interest extends Mage_Sales_Model_Quo
             $this->_setBaseAmount($ammount);
             $this->_setAmount($address->getQuote()->getStore()->convertPrice($ammount, false));
             $address->setPagarMeInterest($ammount);
-            $address->setPagarMeBaseDiscount($ammount);
+            $address->setPagarMeBaseInterest($ammount);
         } else {
             $this->_setBaseAmount(0.00);
             $this->_setAmount(0.00);
