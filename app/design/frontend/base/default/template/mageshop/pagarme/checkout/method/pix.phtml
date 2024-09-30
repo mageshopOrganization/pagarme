@@ -10,7 +10,13 @@
     </div>
     <div class="body_payment_mageshop">
         <div class="pix_mageshop">
-            <img src="<?php echo $this->getCharge()->getLastTransaction("qr_code_url"); ?>" alt="">
+            <div class="qr_code_img">
+                <img src="<?php echo $this->getCharge()->getLastTransaction("qr_code_url"); ?>" alt="">
+            </div>
+            <div class="qr_code">
+                <input type="text" id="pixCode" value="<?php echo $this->getCharge()->getLastTransaction("qr_code"); ?>" readonly>
+                <button onclick="copyPixCode()"><?php echo $this->__("Copiar código Pix") ?></button>
+            </div>
         </div>
         <div class="step_payment_mageshop">
             <ul>
@@ -40,4 +46,14 @@
         <p><?php echo $this->__("Não se preocupe, você será avisado assim que confirmado!") ?></p>
     </div>
 </div>
+
+<script type="text/javascript">
+function copyPixCode() {
+    var pixCode = document.getElementById("pixCode");
+    pixCode.select();
+    pixCode.setSelectionRange(0, 99999); // Para dispositivos móveis
+    document.execCommand("copy");
+    alert("Código PIX copiado!");
+}
+</script>
 <?php endif ?>

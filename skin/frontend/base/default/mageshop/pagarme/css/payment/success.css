@@ -33,19 +33,23 @@
 
 .body_payment_mageshop {
     display: flex;
-    flex-wrap: wrap; /* Permite que os itens se ajustem em telas menores */
+    flex-wrap: wrap;
+    /* Permite que os itens se ajustem em telas menores */
     align-items: center;
     background: #fbfbfb;
     border: 1px solid #DDD;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 3px;
-    padding: 20px; /* Adiciona padding para um layout mais espaçado em telas menores */
+    padding: 20px;
+    /* Adiciona padding para um layout mais espaçado em telas menores */
 }
 
-.pix_mageshop, .boleto_mageshop {
+.pix_mageshop,
+.boleto_mageshop {
     flex: 1;
     margin: 10px;
-    text-align: center; /* Centraliza o conteúdo */
+    text-align: center;
+    /* Centraliza o conteúdo */
 }
 
 .boleto_mageshop img {
@@ -59,8 +63,10 @@
 
 .step_payment_mageshop {
     flex: 2;
-    width: 100%; /* Garante que a lista ocupe toda a largura disponível em telas pequenas */
-    margin-top: 20px; /* Adiciona espaço entre a lista e as imagens em telas pequenas */
+    width: 100%;
+    /* Garante que a lista ocupe toda a largura disponível em telas pequenas */
+    margin-top: 20px;
+    /* Adiciona espaço entre a lista e as imagens em telas pequenas */
 }
 
 .step_payment_mageshop ul {
@@ -112,7 +118,8 @@
     font-size: 1.1em;
     font-weight: 600;
     color: #FFF;
-    display: inline-block; /* Garante que o botão se comporte corretamente em telas pequenas */
+    display: inline-block;
+    /* Garante que o botão se comporte corretamente em telas pequenas */
 }
 
 .boleto_mageshop p {
@@ -128,12 +135,21 @@
     margin-top: 3px;
     margin-bottom: 5px;
 }
-.boleto_mageshop button:hover{
+
+.boleto_mageshop button:hover {
     background: #65a300;
     color: #fbfbfb;
 }
+
 /* Consultas de mídia para diferentes tamanhos de tela */
 @media (max-width: 768px) {
+
+    .pix_mageshop,
+    .boleto_mageshop,
+    .step_payment_mageshop {
+        flex: auto;
+    }
+
     .header_payment_mageshop h3 {
         font-size: 20px;
     }
@@ -187,4 +203,48 @@
     .step_payment_mageshop .icon_step img {
         max-width: 15px;
     }
+}
+
+.pix_mageshop .qr_code {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.pix_mageshop .qr_code input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.pix_mageshop .qr_code input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.pix_mageshop .qr_code button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.pix_mageshop .qr_code button:hover {
+    background-color: #0056b3;
 }
