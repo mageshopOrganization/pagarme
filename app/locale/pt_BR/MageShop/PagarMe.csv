@@ -77,3 +77,7 @@
 "Charge","Cobrança"
 "Charges","Cobranças"
 "Hold Order Status","Status para pedido segurado"
+"holded", "Em análise",
+"pending_payment","Aguardando Pagamento"
+"new","Novo Pedido"
+"processing","Pagamento Confirmado"

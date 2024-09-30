@@ -102,6 +102,7 @@
               <show_in_default>1</show_in_default>
               <show_in_website>1</show_in_website>
               <show_in_store>0</show_in_store>
+              <validate>required-entry</validate>
             </order_status_hold>
           </fields>
         </mageshop_pagarme>
