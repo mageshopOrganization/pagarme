@@ -521,11 +521,13 @@ class MageShop_PagarMe_Model_Orders_Transaction
 
     protected function _holded($order, $status)
     {
-        if ($order->getStatus() == Mage_Sales_Model_Order::STATE_HOLDED) {
+        $status = $this->_getHelper()->getConfigData('order_status_hold') !== null 
+        || $this->_getHelper()->getConfigData('order_status_hold') !== '' ? $status : Mage_Sales_Model_Order::STATE_HOLDED;
+        if ($order->getStatus() == $status) {
             return $this;
         }
-        $order->setState(Mage_Sales_Model_Order::STATE_HOLDED, true, $this->getComment($status));
-        $order->setStatus(Mage_Sales_Model_Order::STATE_HOLDED);
+        $order->setState($status, true, $this->getComment($status));
+        $order->setStatus($status);
         $order->save();
     }
     protected function _review($order, $status)
