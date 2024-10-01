@@ -242,6 +242,8 @@ class MageShop_PagarMe_Model_Orders_Order
                 "operation_type" => $this->getCcModel()->getOperation(),
                 "installments" => $installments,
                 "statement_descriptor" => $this->getCcModel()->getHelper()->getConfigData('statement_descriptor'),
+                "initiated_type" => "partial_shipment",
+                "recurrence_model" => "standing_order",
             ),
             "payment_method" => $this->payment_method,
             "amount"         => $this->getHelper()->amount($this->getTotal()),
