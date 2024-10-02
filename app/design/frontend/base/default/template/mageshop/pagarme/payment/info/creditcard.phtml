@@ -28,7 +28,7 @@
     <br>
 
     <?php if ($order) : ?>
-        <?php $boletoInfo = $this->getPaymentInfo(); ?>
+        <?php $creditCardInfo = $this->getPaymentInfo(); ?>
         <?php if ($creditCardInfo && isset($creditCardInfo['charges'])) : ?>
             <?php foreach ($creditCardInfo['charges'] as $charge) : ?>
                 <table class="payment-info-table">
