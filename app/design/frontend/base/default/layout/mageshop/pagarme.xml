@@ -43,13 +43,11 @@
             <action method="addItem"><type>skin_css</type><name>mageshop/pagarme/css/payment/success.css</name></action>
         </reference>
         <reference name="content">
-            <reference name="checkout.success">
-                <block type="mageshop_pagarme/payment_success" name="mageshop_pagarme.success" template="mageshop/pagarme/checkout/success.phtml" >
-                    <block type="mageshop_pagarme/payment_method_creditCard" name="mageshop_pagarme.creditcard" as="pagarme_creditcard" template="mageshop/pagarme/checkout/method/creditcard.phtml"/>
-                    <block type="mageshop_pagarme/payment_method_pix" name="mageshop_pagarme.pix" as="pagarme_pix" template="mageshop/pagarme/checkout/method/pix.phtml"/>
-                    <block type="mageshop_pagarme/payment_method_bankslip" name="mageshop_pagarme.bankslip" as="pagarme_bankslip" template="mageshop/pagarme/checkout/method/bankslip.phtml"/>
-                </block>
-            </reference>
+            <block type="mageshop_pagarme/payment_success" name="mageshop_pagarme.success" template="mageshop/pagarme/checkout/success.phtml" >
+                <block type="mageshop_pagarme/payment_method_creditCard" name="mageshop_pagarme.creditcard" as="pagarme_creditcard" template="mageshop/pagarme/checkout/method/creditcard.phtml"/>
+                <block type="mageshop_pagarme/payment_method_pix" name="mageshop_pagarme.pix" as="pagarme_pix" template="mageshop/pagarme/checkout/method/pix.phtml"/>
+                <block type="mageshop_pagarme/payment_method_bankslip" name="mageshop_pagarme.bankslip" as="pagarme_bankslip" template="mageshop/pagarme/checkout/method/bankslip.phtml"/>
+            </block>
         </reference>
     </checkout_onepage_success>
   
