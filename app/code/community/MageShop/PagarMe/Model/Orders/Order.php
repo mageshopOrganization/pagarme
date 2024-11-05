@@ -23,13 +23,13 @@ class MageShop_PagarMe_Model_Orders_Order
     public function customer()
     {
         $quote = $this->getCheckout()->getQuote();
-        $number_taxvat = $quote->getCustomerTaxvat();
+        $number_vat = $this->getDocumentCustomer($quote);
 
-        if ($this->getHelper()->cnpj_cpf($number_taxvat) == false) {
+        if ($this->getHelper()->cnpj_cpf($number_vat) == false) {
             Mage::throwException("CPF/CNPJ invalido.");
         }
 
-        $doc = preg_replace("/[^0-9]/", "", $number_taxvat);
+        $doc = preg_replace("/[^0-9]/", "", $number_vat);
         $this->_data['customer'] = array(
             "name" => $quote->getCustomerFirstname() . ' ' . $quote->getCustomerLastname(),
             "birth_date" => $quote->getCustomerDob() ? Mage::helper('core')->formatDate($quote->getCustomerDob(), 'medium', false) : '',
@@ -383,5 +383,15 @@ class MageShop_PagarMe_Model_Orders_Order
     public function getData()
     {
         return $this->_data;
+    }
+
+    /**
+     * Retorna o documento 
+     * @param mixed $quote
+     * @return mixed
+     */
+    public function getDocumentCustomer($quote)
+    {
+        return $quote->getCustomerTaxvat() ? $quote->getCustomerTaxvat() : $quote->getBillingAddress()->getVatId();
     }
 }
