@@ -45,11 +45,10 @@ $intallments = $this->getInstallments($quote);
         </div>
     </li>
     <li>
-        <input type="hidden" id="card_flag" class="required-entry" name="payment[card_flag]">
+        <input type="hidden" id="card_flag" class="required-entry">
         <label for="<?php echo $_card_number; ?>" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
         <div class="input-box">
             <input type="text" id="<?php echo $_card_number; ?>" 
-            name="payment[<?php echo $_card_number; ?>]" 
             title="<?php echo $this->__('Credit Card Number') ?>" 
             class="input-text required-entry validate-cardnumber" 
             value="" 
@@ -63,7 +62,6 @@ $intallments = $this->getInstallments($quote);
         <label for="<?php echo $_card_name ?>" class="required"><em>*</em><?php echo $this->__('Name on Card') ?></label>
         <div class="input-box">
             <input type="text" id="<?php echo $_card_name; ?>" 
-            name="payment[<?php echo $_card_name; ?>]" 
             title="<?php echo $this->__('Name on Card') ?>" class="input-text" 
             value="" />
         </div>
@@ -72,20 +70,20 @@ $intallments = $this->getInstallments($quote);
         <label for="<?php echo $_code ?>_expiration" class="required"><em>*</em><?php echo $this->__('Expiry Date') ?></label>
         <div class="input-box">
             <div class="v-fix">
-                <select id="<?php echo $_card_exp_month; ?>" name="payment[<?php echo $_card_exp_month; ?>]" class="required-entry validate-expirymonth">
+                <select id="<?php echo $_card_exp_month; ?>" class="required-entry validate-expirymonth">
                     <?php foreach ($this->getCcMonths() as $k=>$v): ?>
                         <option value="<?php echo $k?$k:'' ?>"><?php echo $v ?></option>
                     <?php endforeach ?>
                 </select>
             </div>
             <div class="v-fix">
-                <select id="<?php echo $_card_exp_year; ?>" name="payment[<?php echo $_card_exp_year; ?>]" class="required-entry validate-expiryyear">
+                <select id="<?php echo $_card_exp_year; ?>" class="required-entry validate-expiryyear">
                     <?php foreach ($this->getCcYears() as $k=>$v): ?>
                         <option value="<?php echo $k?$k:'' ?>"><?php echo $v ?></option>
                     <?php endforeach ?>
                 </select>
             </div>
-            <input type="hidden" id="<?php echo $_card_expires_at ?>" class="input-text required-entry validate-expires_at" name="payment[<?php echo $_card_expires_at ?>]" autocomplete="off"/>
+            <input type="hidden" id="<?php echo $_card_expires_at ?>" class="input-text required-entry validate-expires_at" autocomplete="off"/>
         </div>
     </li>
     <li>
@@ -93,7 +91,6 @@ $intallments = $this->getInstallments($quote);
         <div class="input-box">
             <div class="v-fix">
                 <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" 
-                name="payment[<?php echo $_card_cvv; ?>]"
                 maxlength="4" class="input-text cvv required-entry validate-cvv" 
                 id="<?php echo $_card_cvv; ?>" />
             </div>
@@ -119,7 +116,6 @@ $intallments = $this->getInstallments($quote);
             <label for="<?php echo $_card_document; ?>" class="required"><em>*</em><?php echo $this->__('CPF/CNPJ Cartão') ?></label>
             <div class="input-box">
                 <input type="text" id="<?php echo $_card_document; ?>" 
-                name="payment[<?php echo $_card_document; ?>]" 
                 title="<?php echo $this->__('CPF/CNPJ Cartão') ?>" 
                 class="input-text validate-document" 
                 onkeyup="maskDocument(this)" 

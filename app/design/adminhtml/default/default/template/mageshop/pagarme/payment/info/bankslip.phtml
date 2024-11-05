@@ -28,10 +28,6 @@
                     <td><?php echo $this->__($charge['last_transaction']['amount']) ?></td>
                 </tr>
                 <tr>
-                    <th><?php echo $this->__('Status:') ?></th>
-                    <td><?php echo $this->__(MageShop_PagarMe_Model_System_Config_Transaction_Status::convertStatus($charge['last_transaction']['status'])) ?></td>
-                </tr>
-                <tr>
                     <th><?php echo $this->__('Currency:') ?></th>
                     <td><?php echo $this->__($charge['last_transaction']['currency']) ?></td>
                 </tr>

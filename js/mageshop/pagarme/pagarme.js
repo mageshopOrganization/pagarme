@@ -4,12 +4,12 @@ var PCIPagarMe = Class.create({
     },
     addCardFieldsObserver: function (obj) {
 
-        var cc_number = $$('input[name="payment[mageshop_pagarme_cc_number]"]').first();
-        var cc_name = $$('input[name="payment[mageshop_pagarme_cc_name]"]').first();
-        var exp_month = $$('select[name="payment[mageshop_pagarme_cc_exp_month]"]').first();
-        var expiration_yr = $$('select[name="payment[mageshop_pagarme_cc_expiration_yr]"]').first();
-        var cc_cvv = $$('input[name="payment[mageshop_pagarme_cc_cvv]"]').first();
-        var cc_document = $$('input[name="payment[mageshop_pagarme_cc_document]"]').first();
+        var cc_number = $$('input[id=mageshop_pagarme_cc_number]').first();
+        var cc_name = $$('input[id=mageshop_pagarme_cc_name]').first();
+        var exp_month = $$('select[id=mageshop_pagarme_cc_exp_month]').first();
+        var expiration_yr = $$('select[id=mageshop_pagarme_cc_expiration_yr]').first();
+        var cc_cvv = $$('input[id=mageshop_pagarme_cc_cvv]').first();
+        var cc_document = $$('input[id=mageshop_pagarme_cc_document]').first();
 
         Element.observe(cc_number, 'change', function (e) { PCIPagarMeObj.placeorder = false; obj.tokenizeCard(); });
         Element.observe(cc_name, 'change', function (e) { PCIPagarMeObj.placeorder = false; obj.tokenizeCard(); });
@@ -98,19 +98,19 @@ var PCIPagarMe = Class.create({
         window.clearTimeout(this.tokenTimeout); // Cancela o setTimeout atual se estiver agendado
     },
     middlerCc: function () {
-        var cc_number = $$('input[name="payment[mageshop_pagarme_cc_number]"]').first().value.replace(/\s/g, '');
-        var cc_name = $$('input[name="payment[mageshop_pagarme_cc_name]"]').first().value;
-        var cc_exp_month = $$('select[name="payment[mageshop_pagarme_cc_exp_month]"]').first().value.replace(/^\s+|\s+$/g, '');
-        var cc_expiration_yr = $$('select[name="payment[mageshop_pagarme_cc_expiration_yr]"]').first().value.replace(/^\s+|\s+$/g, '');
-        var cc_cvv = $$('input[name="payment[mageshop_pagarme_cc_cvv]"]').first().value.replace(/^\s+|\s+$/g, '');
+        var cc_number = $$('input[id=mageshop_pagarme_cc_number]').first().value.replace(/\s/g, '');
+        var cc_name = $$('input[id=mageshop_pagarme_cc_name]').first().value;
+        var cc_exp_month = $$('select[id=mageshop_pagarme_cc_exp_month]').first().value.replace(/^\s+|\s+$/g, '');
+        var cc_expiration_yr = $$('select[id=mageshop_pagarme_cc_expiration_yr]').first().value.replace(/^\s+|\s+$/g, '');
+        var cc_cvv = $$('input[id=mageshop_pagarme_cc_cvv]').first().value.replace(/^\s+|\s+$/g, '');
         var cc_document = null;
 
         if (cc_number === '' || cc_name === '' || cc_exp_month === '' || cc_expiration_yr === '' || cc_cvv === '') {
             return false;
         }
 
-        if ($$('input[name="payment[mageshop_pagarme_cc_document]"]').first()) {
-            cc_document = $$('input[name="payment[mageshop_pagarme_cc_document]"]').first().value.replace(/^\s+|\s+$/g, '');
+        if ($$('input[id=mageshop_pagarme_cc_document]').first()) {
+            cc_document = $$('input[id=mageshop_pagarme_cc_document]').first().value.replace(/^\s+|\s+$/g, '');
             if (cc_document === '') {
                 return false;
             }

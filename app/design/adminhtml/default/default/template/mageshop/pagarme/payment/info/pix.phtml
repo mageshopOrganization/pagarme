@@ -22,10 +22,6 @@
                     <td><?php echo $this->__($charge["last_transaction"]['pix_provider_tid']) ?></td>
                 </tr>
                 <tr>
-                    <td><strong><?php echo $this->__('Status:') ?></strong></td>
-                    <td><?php echo $this->__(MageShop_PagarMe_Model_System_Config_Transaction_Status::convertStatus($charge["last_transaction"]['status'])) ?></td>
-                </tr>
-                <tr>
                     <td><strong><?php echo $this->__('Amount:') ?></strong></td>
                     <td><?php echo $this->__($charge["last_transaction"]['amount']) ?></td>
                 </tr>
