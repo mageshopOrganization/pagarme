@@ -16,7 +16,7 @@ class MageShop_PagarMe_Block_Sales_Order_Totals extends Mage_Sales_Block_Order_T
         $data = [];
         $data['code']  = 'juros';
         $data['field'] = 'juros';
-        $data['value'] = 11;
+        $data['value'] = 0;
         $data['label'] = 'Juros: ';
         $this->addTotalBefore(new Varien_Object($data), 'grand_total');
 
