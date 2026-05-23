@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<config>
+	<menu>
+		<mageshop_pagarme translate="title" module="mageshop_pagarme">
+			<title>Pagar.me</title>
+			<sort_order>100</sort_order>
+			<depends>
+				<module>MageShop_PagarMe</module>
+			</depends>
+			<children>
+				<configuration translate="title" module="mageshop_pagarme">
+					<title>Configurations</title>
+					<sort_order>1</sort_order>
+					<action>adminhtml/system_config/edit/section/payment</action>
+				</configuration>
+				<mageshop_pagarme_transactions translate="title" module="mageshop_pagarme">
+					<title>Transactions</title>
+					<sort_order>2</sort_order>
+					<action>adminhtml/transactions</action>
+				</mageshop_pagarme_transactions>
+				<mageshop_pagarme_jobs translate="title" module="mageshop_pagarme">
+					<title>Jobs</title>
+					<sort_order>3</sort_order>
+					<action>adminhtml/jobs</action>
+				</mageshop_pagarme_jobs>
+			</children>
+		</mageshop_pagarme>
+	</menu>
+	<acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <mageshop_pagarme translate="title" module="mageshop_pagarme">
+                        <title>Pagar.me</title>
+                        <sort_order>100</sort_order>
+                        <children>
+                            <configuration translate="title" module="mageshop_pagarme">
+                                <title>Configurations</title>
+                            </configuration>
+                            <mageshop_pagarme_transactions translate="title" module="mageshop_pagarme">
+                                <title>Transactions</title>
+                            </mageshop_pagarme_transactions>
+                            <mageshop_pagarme_jobs translate="title" module="mageshop_pagarme">
+                                <title>Jobs</title>
+                            </mageshop_pagarme_jobs>
+                        </children>
+                    </mageshop_pagarme>
+					<system>
+                        <children>
+                            <config>
+                                <children>
+                                    <mageshop_pagarme translate="label" module="mageshop_pagarme">
+                                        <title>Pagar.me</title>
+                                        <sort_order>1</sort_order>
+                                    </mageshop_pagarme>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

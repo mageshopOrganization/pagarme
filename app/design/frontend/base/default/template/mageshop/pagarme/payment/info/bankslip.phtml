@@ -1,0 +1,50 @@
+<?php $order = $this->getInfo()->getOrder(); ?>
+<?php $title = $this->getMethod()->getTitle(); ?>
+<?php $url_store = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>
+<?php $imageIcon = $url_store . 'media/mageshop/pagarme/images/logo_pagarme.svg'; ?>
+
+<style>
+    .mageshop_pagarme {
+        width: auto;
+        max-width: 200px;
+        display: flex;
+        align-items: center;
+    }
+
+    .mageshop_pagarme img {
+        width: 45px;
+        margin-right: 10px;
+    }
+
+    .mageshop_pagarme p {
+        margin-left: 10px;
+    }
+</style>
+
+<div class="box-pagarme">
+    <div class="mageshop_pagarme">
+        <img src="<?php echo $imageIcon ?>" alt="<?php echo $title; ?>" width="120px">
+        <p><?php echo $title; ?></p>
+    </div>
+    <br>
+
+    <?php if ($order) : ?>
+        <?php $boletoInfo = $this->getPaymentInfo(); ?>
+        <?php if ($boletoInfo && isset($boletoInfo['charges'])) : ?>
+            <?php foreach ($boletoInfo['charges'] as $charge) : ?>
+                <table class="payment-info-table">
+                    <tr>
+                        <th><?php echo $this->__('Status:') ?></th>
+                        <td><?php echo $this->__(MageShop_PagarMe_Model_System_Config_Transaction_Status::convertStatus($charge['last_transaction']['status'])) ?></td>
+                    </tr>
+                    <?php if ($charge['last_transaction']['status'] == MageShop_PagarMe_Model_System_Config_Transaction_Status::WAITING_PAYMENT) : ?>
+                        <tr>
+                            <th><?php echo $this->__('Boleto URL:') ?></th>
+                            <td><a target="_blank" href="<?php echo $this->__($charge['last_transaction']['url']) ?>"><?php echo $this->__($charge['last_transaction']['url']) ?></a></td>
+                        </tr>
+                    <?php endif; ?>
+                </table>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    <?php endif ?>
+</div>

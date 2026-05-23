@@ -1,0 +1,126 @@
+<?php $jobs = $this->getJobs(); ?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-account"><?php echo $this->escapeHtml($this->__('Lista de Jobs Pendentes')) ?></h4>
+    </div>
+    <div class="fieldset">
+        <?php if ($jobs && $jobs->getSize() > 0) : ?>
+            <table cellspacing="0" class="form-list styled-table">
+                <thead>
+                    <tr>
+                        <th><?php echo $this->__("Id"); ?></th>
+                        <th><?php echo $this->__("Increment Id"); ?></th>
+                        <th><?php echo $this->__("Notification Id"); ?></th>
+                        <th><?php echo $this->__("Attempts"); ?></th>
+                        <th><?php echo $this->__("Payload"); ?></th>
+                        <th><?php echo $this->__("Observer"); ?></th>
+                        <th><?php echo $this->__("Created"); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($jobs as $job) : ?>
+                        <tr>
+                            <td><?php echo $job->getId(); ?></td>
+                            <td><?php echo $job->getIncrementId(); ?></td>
+                            <td><?php echo $job->getNotificationId(); ?></td>
+                            <td><?php echo $job->getAttempts(); ?></td>
+                            <td>
+                                <button class="toggle-payload">Open</button>
+                                <div class="payload-content" style="display:none;">
+                                    <?php echo $job->getPayload(); ?>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="toggle-observer">Open</button>
+                                <div class="observer-content" style="display:none;">
+                                    <?php echo $job->getObs(); ?>
+                                </div>
+                            </td>
+                            <td><?php echo $job->getCreatedAt(); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else : ?>
+            <p class="no-jobs"><?php echo $this->__('Nenhum job pendente encontrado.'); ?></p>
+        <?php endif; ?>
+    </div>
+</div>
+<style>
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 1.2em;
+        font-family: 'Arial', sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .styled-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+    .styled-table tbody tr:hover {
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+
+    .no-jobs {
+        color: #ff0000;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .toggle-payload,
+    .toggle-observer {
+        background-color: #009879;
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 5px 10px;
+        font-size: 0.9em;
+    }
+
+    .payload-content,
+    .observer-content {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #dddddd;
+        background-color: #f9f9f9;
+    }
+</style>
+<script>
+    if (typeof(jQuery) !== 'undefined') {
+        jQuery(document).ready(function($) {
+            $('.toggle-payload').on('click', function() {
+                $(this).next('.payload-content').slideToggle();
+                $(this).text($(this).text() === '<?php echo $this->__("Open"); ?>' ? '<?php echo $this->__("Close"); ?>' : '<?php echo $this->__("Open"); ?>');
+            });
+
+            $('.toggle-observer').on('click', function() {
+                $(this).next('.observer-content').slideToggle();
+                $(this).text($(this).text() === '<?php echo $this->__("Open"); ?>' ? '<?php echo $this->__("Close"); ?>' : '<?php echo $this->__("Open"); ?>');
+            });
+        });
+    }
+</script>

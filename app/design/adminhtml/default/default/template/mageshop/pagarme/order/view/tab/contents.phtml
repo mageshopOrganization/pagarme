@@ -1,0 +1,101 @@
+<?php
+$order = $this->getOrder();
+$charges = $this->getCharges();
+?>
+
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4><?php echo $this->__('Pagar.me Order Information'); ?></h4>
+    </div>
+    <div class="fieldset">
+        <table cellspacing="0" class="form-list">
+            <tbody>
+                <tr>
+                    <td class="label"><label for="order_id">Order ID</label></td>
+                    <td class="value"><?php echo $order->getIncrementId() ?></td>
+                </tr>
+                <tr>
+                    <h4><?php echo $this->__('Pagar.me Order Information'); ?></h4>
+                    <td class="value"><?php echo $order->getStatusLabel() ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4><?php echo $this->__('Transaction List'); ?></h4>
+    </div>
+    <div class="fieldset">
+        <table cellspacing="0" class="form-list">
+            <thead>
+                <tr>
+                    <th><?php echo $this->__('Transaction Id'); ?></th>
+                    <th><?php echo $this->__('Status'); ?></th>
+                    <th><?php echo $this->__('Amount'); ?></th>
+                    <th><?php echo $this->__('Capture amount'); ?></th>
+                    <th><?php echo $this->__('Chargeback amount'); ?></th>
+                    <th><?php echo $this->__('Void amount'); ?></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($charges as $charge) : ?>
+                    <?php $status = $charge->getStatus(); ?>
+                    <tr>
+                        <td class="value"><?php echo $charge->getChargeId() ?></td>
+                        <td class="value"><?php echo $this->__(ucfirst($status)); ?></td>
+                        <td class="value"><?php echo $this->convertBr($charge->getAmount()) ?></td>
+                        <td class="value"><?php echo $this->convertBr($charge->getCaptureAmount()) ?></td>
+                        <td class="value"><?php echo $this->convertBr($charge->getChargebackAmount()) ?></td>
+                        <td class="value"><?php echo $this->convertBr($charge->getVoidAmount()) ?></td>
+
+                        <?php if ($this->canAct($charge->getPaymentMethod() ,$status)) : ?>
+                            <form method="post" id="form-<?php echo $charge->getChargeId() ?>">
+                                <td class="value">
+                                    <input type="hidden" name="charge_id" value="<?php echo $charge->getChargeId() ?>">
+                                    <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>">
+                                    <input class="input-text not-negative-amount" name="amount" data-amount="<?php echo $charge->getChargeId() ?>" value="<?php echo $charge->getAmount() ?>">
+                                </td>
+                                <td class="value">
+                                    <?php if ($this->canCapture($status)) : ?>
+                                        <button type="button" class="scalable capture-button" title="<?php echo $this->__('Capture'); ?>" onclick="setFormActionAndSubmit('<?php echo $this->getCaptureUrl($charge->getChargeId()) ?>', 'form-<?php echo $charge->getChargeId() ?>')">
+                                            <span><?php echo $this->__('Capture'); ?></span>
+                                        </button>
+                                    <?php endif ?>
+                                    <?php if ($this->canVoid($status)) : ?>
+                                        <button type="button" class="scalable void-button" title="<?php echo $this->__('Cancel'); ?>" onclick="setFormActionAndSubmit('<?php echo $this->getVoidUrl($charge->getChargeId()) ?>', 'form-<?php echo $charge->getChargeId() ?>')">
+                                            <span><?php echo $this->__('Cancel'); ?></span>
+                                        </button>
+                                    <?php endif ?>
+                                </td>
+                            </form>
+                        <?php endif ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function setFormActionAndSubmit(url, formId) {
+
+        if (!confirm("Tem certeza?")) {
+            return false;
+        }
+
+        var form = document.getElementById(formId);
+        form.action = url;
+        form.submit();
+
+        Element.show('loading-mask');
+
+    }
+</script>

@@ -1,0 +1,59 @@
+<?php if ($this->success()) : ?>
+    <div class="container_payment_mageshop">
+        <div class="header_payment_mageshop">
+            <div class="icon_status_payment_mageshop">
+                <img src="<?php echo $this->getSvg("logo_pagarme") ?>">
+            </div>
+            <h3><?php echo $this->__("Seu pedido foi realizado com sucesso") ?></h3>
+            <p><?php echo $this->__("Pague com <b>Boleto</b> até a data de vencimento!") ?></p>
+            <p><?php echo $this->__("O pagamento é seguro e você pode realizar em qualquer banco, casa lotérica ou aplicativo de sua preferência.") ?></p>
+        </div>
+        <div class="body_payment_mageshop">
+            <div class="boleto_mageshop">
+                <img src="<?php echo $this->getCharge()->getLastTransaction("barcode"); ?>" alt="">
+                <p><?php echo $this->__("Linha Digitável: %s", $this->getCharge()->getLastTransaction("line")) ?></p>
+                <button onclick="copyToClipboard('<?php echo $this->getCharge()->getLastTransaction("line"); ?>')">Copiar Linha Digitável</button>
+                <p><a href="<?php echo $this->getCharge()->getLastTransaction("pdf"); ?>" target="_blank"><?php echo $this->__("Clique aqui para visualizar o boleto em PDF") ?></a></p>
+            </div>
+            <div class="step_payment_mageshop">
+                <ul>
+                    <li>
+                        <div class="icon_step">
+                            <img src="<?php echo $this->getSvg("print") ?>">
+                        </div>
+                        <p><?php echo $this->__("1. Imprima o boleto ou salve o PDF no seu dispositivo.") ?></p>
+                    </li>
+                    <li>
+                        <div class="icon_step">
+                            <img src="<?php echo $this->getSvg("bankslip") ?>">
+                        </div>
+                        <p><?php echo $this->__("2. Pague o boleto em qualquer banco, casa lotérica ou através do aplicativo do seu banco.") ?></p>
+                    </li>
+                    <li>
+                        <div class="icon_step">
+                            <img src="<?php echo $this->getSvg("check-double") ?>">
+                        </div>
+                        <p><?php echo $this->__("3. Após o pagamento, a confirmação pode levar alguns dias úteis.") ?></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer_payment_mageshop">
+            <p><?php echo $this->__("Após o pagamento, podemos levar alguns dias úteis para a confirmação do seu pedido.") ?></p>
+            <p><?php echo $this->__("Não se preocupe, você será avisado assim que confirmado!") ?></p>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(line) {
+            var tempInput = document.createElement("input");
+            tempInput.value = line;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("Linha Digitável copiada para a área de transferência!");
+        }
+    </script>
+
+<?php endif ?>
