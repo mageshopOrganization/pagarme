@@ -179,7 +179,7 @@ class MageShop_PagarMe_Helper_CreditCard extends MageShop_PagarMe_Helper_Data
    */
   protected function validPattern($number, $type): bool
   {
-    return preg_match($this->cards[$type]['pattern'], $number);
+    return (bool) preg_match($this->cards[$type]['pattern'], (string) $number);
   }
 
   /**

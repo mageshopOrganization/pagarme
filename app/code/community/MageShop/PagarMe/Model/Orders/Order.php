@@ -39,11 +39,11 @@ class MageShop_PagarMe_Model_Orders_Order
         if (strlen($doc) === 14) {
             $this->_data['customer']['document'] = $doc;
             $this->_data['customer']['type'] = "company";
-            $this->_data['customer']['document_type'] = "CNPJ";
+            $this->_data['customer']['document_type'] = "cnpj";
         } else if (strlen($doc) == 11) {
             $this->_data['customer']['document'] = $doc;
             $this->_data['customer']['type'] = "individual";
-            $this->_data['customer']['document_type'] = "CPF";
+            $this->_data['customer']['document_type'] = "cpf";
         }
 
         return $this;
@@ -52,21 +52,21 @@ class MageShop_PagarMe_Model_Orders_Order
     public function contacts()
     {
         $billingAddress = $this->_payment->getOrder()->getQuote()->getBillingAddress();
-        $number_contact = str_replace([" ", "(", ")", "-"], "", $billingAddress->getTelephone());
+        $number_contact = str_replace([" ", "(", ")", "-"], "", (string) $billingAddress->getTelephone());
         $phone = $this->getHelper()->extractDDDAndNumber($number_contact);
         if ($phone == null) {
-            return false;
+            return $this;
         }
         $this->_data['customer']['phones'] = array(
             "home_phone" => array(
-                "country_code" => 55,
-                "area_code" => $phone["ddd"],
-                "number" => $phone["number"],
+                "country_code" => "55",
+                "area_code" => (string) $phone["ddd"],
+                "number" => (string) $phone["number"],
             ),
             "mobile_phone" => array(
-                "country_code" => 55,
-                "area_code" => $phone["ddd"],
-                "number" => $phone["number"],
+                "country_code" => "55",
+                "area_code" => (string) $phone["ddd"],
+                "number" => (string) $phone["number"],
             )
         );
         return $this;
@@ -94,8 +94,8 @@ class MageShop_PagarMe_Model_Orders_Order
     {
         $quote = $this->_payment->getOrder()->getQuote(); // obtém o objeto quote do pedido
         $address = $quote->getBillingAddress(); // obtém o objeto endereço de cobrança
-        $street = $address->getStreet();
-        $zip_code = preg_replace("/[^0-9]/", "", $address->getPostcode());
+        $street = $this->normalizeStreet($address->getStreet());
+        $zip_code = preg_replace("/[^0-9]/", "", (string) $address->getPostcode());
         $line_1 = $this->getHelper()->__("%s, %s, %s", $street[0], $street[1], $street[3]);
         $this->_data['customer']['address'] = array(
             "country" => $address->getCountryId(),
@@ -113,9 +113,9 @@ class MageShop_PagarMe_Model_Orders_Order
     {
         $quote = $this->_payment->getOrder()->getQuote(); // obtém o objeto quote do pedido
         $billingAddress = $quote->getBillingAddress(); // obtém o objeto endereço de cobrança
-        $street = $billingAddress->getStreet();
+        $street = $this->normalizeStreet($billingAddress->getStreet());
         $line_1 = $this->getHelper()->__("%s, %s, %s", $street[0], $street[1], $street[3]);
-        $zip_code = preg_replace("/[^0-9]/", "", $billingAddress->getPostcode());
+        $zip_code = preg_replace("/[^0-9]/", "", (string) $billingAddress->getPostcode());
         return array(
             "country" => $billingAddress->getCountryId(),
             "zip_code" => $zip_code,
@@ -130,7 +130,10 @@ class MageShop_PagarMe_Model_Orders_Order
     {
         $quote = $this->_payment->getOrder()->getQuote(); // obtém o objeto quote do pedido
         $shippingAddress = $quote->getShippingAddress(); // obtém o objeto endereço de cobrança
-        $street = $shippingAddress->getStreet();
+        if (!$shippingAddress) {
+            $shippingAddress = $quote->getBillingAddress();
+        }
+        $street = $this->normalizeStreet($shippingAddress->getStreet());
 
         $shippingTitle = $this->_payment->getOrder()->getData('shipping_description');
 
@@ -139,7 +142,7 @@ class MageShop_PagarMe_Model_Orders_Order
         }
         $shippingPrice = $this->_payment->getShippingAmount();
         $line_1 = $this->getHelper()->__("%s, %s, %s", $street[0], $street[1], $street[3]);
-        $zip_code = preg_replace("/[^0-9]/", "", $shippingAddress->getPostcode());
+        $zip_code = preg_replace("/[^0-9]/", "", (string) $shippingAddress->getPostcode());
         $this->_data['shipping']['address'] = array(
             "country" => $shippingAddress->getCountryId(),
             "zip_code" => $zip_code,
@@ -150,6 +153,27 @@ class MageShop_PagarMe_Model_Orders_Order
         $this->_data['shipping']["description"] = $shippingTitle;
         $this->_data['shipping']["amount"] = $this->getHelper()->amount($shippingPrice);
         return $this;
+    }
+
+    /**
+     * @param mixed $street
+     * @return array
+     */
+    private function normalizeStreet($street)
+    {
+        if (is_string($street)) {
+            $street = preg_split('/\r?\n/', $street);
+        } elseif (!is_array($street)) {
+            $street = array();
+        }
+        for ($i = 0; $i < 4; $i++) {
+            if (!isset($street[$i]) || $street[$i] === null) {
+                $street[$i] = '';
+            } else {
+                $street[$i] = (string) $street[$i];
+            }
+        }
+        return $street;
     }
 
     public function closed($status = false)
@@ -186,11 +210,9 @@ class MageShop_PagarMe_Model_Orders_Order
         } else {
             $expirationDays = 0; // Defina um padrão se não for um número válido
         }
-        $currentDate = new DateTime();
-        // Adicione os dias de vencimento à data atual
+        $currentDate = new DateTime('now', new DateTimeZone('UTC'));
         $currentDate->modify("+{$expirationDays} days");
-        // Formate a data no formato ISO 8601
-        $dueAt = $currentDate->format('Y-m-d\TH:i:s');
+        $dueAt = $currentDate->format('Y-m-d\TH:i:s\Z');
 
         $this->_data["payments"][] = array(
             "boleto" => array(
@@ -209,9 +231,13 @@ class MageShop_PagarMe_Model_Orders_Order
 
     public function paymentPix()
     {
+        $expiresIn = (int) $this->getHelper()->getConfigData("expiration_qrcode", "mageshop_pagarme_pix");
+        if ($expiresIn <= 0) {
+            $expiresIn = 3600;
+        }
         $this->_data["payments"][] = array(
-            "Pix" => array(
-                "expires_in" => $this->getHelper()->getConfigData("expiration_qrcode", "mageshop_pagarme_pix")
+            "pix" => array(
+                "expires_in" => (string) $expiresIn
             ),
             "payment_method" => $this->payment_method,
             "amount"         => $this->getHelper()->amount($this->getTotal()),
@@ -242,12 +268,12 @@ class MageShop_PagarMe_Model_Orders_Order
                 "operation_type" => $this->getCcModel()->getOperation(),
                 "installments" => $installments,
                 "statement_descriptor" => $this->getCcModel()->getHelper()->getConfigData('statement_descriptor'),
-                "initiated_type" => "partial_shipment",
-                "recurrence_model" => "standing_order",
+                // "initiated_type" => "partial_shipment",
+                // "recurrence_model" => "standing_order",
             ),
             "payment_method" => $this->payment_method,
             "amount"         => $this->getHelper()->amount($this->getTotal()),
-           
+
         );
         return $this;
     }

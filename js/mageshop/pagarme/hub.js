@@ -34,7 +34,12 @@ function Hub(config) {
           this.language = config.language.toLowerCase();
       }
 
+      if (!this.locations[this.language]) {
+          this.language = "pt-br";
+      }
+
       let url = null;
+      let text;
 
       if (config.installId) {
           url = this.urlToView;
@@ -49,14 +54,14 @@ function Hub(config) {
       else
           url = url.replace("/{language}", "");
 
-      if (config.environment?.toLowerCase().startsWith("dev"))
+      if (config.environment && config.environment.toLowerCase().startsWith("dev"))
           url = url.replace("{environment}", config.environment);
       else
           url = url.replace("/{environment}", "");
 
-      url = url.replace("{publicAppKey}", config.publicAppKey);
-      url = url.replace("{installId}", config.installId);
-      url = url.replace("{redirectUrl}", config.redirectUrl);
+      url = url.replace("{publicAppKey}", config.publicAppKey || "");
+      url = url.replace("{installId}", config.installId || "");
+      url = url.replace("{redirectUrl}", config.redirectUrl || "");
 
       this.createLink(text, url);
   };

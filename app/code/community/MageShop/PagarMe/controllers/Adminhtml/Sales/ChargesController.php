@@ -94,6 +94,7 @@ class MageShop_PagarMe_Adminhtml_Sales_ChargesController extends Mage_Adminhtml_
     }
     public function orderAction()
     {
+        $order = null;
         try {
             $orderId = $this->getRequest()->getParam('order_pagarme');
             if (!$orderId) {
@@ -109,11 +110,16 @@ class MageShop_PagarMe_Adminhtml_Sales_ChargesController extends Mage_Adminhtml_
             $this->getAdminSession()->addError($e->getMessage());
         }
         // Redirecionar para a página de visualização do pedido
-        $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        if ($order && $order->getId()) {
+            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        } else {
+            $this->_redirectReferer();
+        }
     }
 
     public function voidAction()
     {
+        $order = null;
         try {
             $charge = $this->initCharge();
             $order = $this->_initOrder($charge->getOrderId());
@@ -145,11 +151,16 @@ class MageShop_PagarMe_Adminhtml_Sales_ChargesController extends Mage_Adminhtml_
         }
 
         // Redirecionar para a página de visualização do pedido
-        $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        if ($order && $order->getId()) {
+            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        } else {
+            $this->_redirectReferer();
+        }
     }
 
     public function captureAction()
     {
+        $order = null;
         try {
             $charge = $this->initCharge();
             $order = $this->_initOrder($charge->getOrderId());
@@ -182,7 +193,11 @@ class MageShop_PagarMe_Adminhtml_Sales_ChargesController extends Mage_Adminhtml_
         }
 
         // Redirecionar para a página de visualização do pedido
-        $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        if ($order && $order->getId()) {
+            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+        } else {
+            $this->_redirectReferer();
+        }
     }
 
     public function getAdminSession()

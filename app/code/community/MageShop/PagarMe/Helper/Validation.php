@@ -70,7 +70,7 @@ class MageShop_PagarMe_Helper_Validation extends MageShop_PagarMe_Helper_Data
 
   public function cnpj_cpf($str)
   {
-    $doc = preg_replace("/[^0-9]/", "", $str);
+    $doc = preg_replace("/[^0-9]/", "", (string) $str);
     $qtd = strlen($doc);
 
     if ($qtd >= 11) {
@@ -89,6 +89,7 @@ class MageShop_PagarMe_Helper_Validation extends MageShop_PagarMe_Helper_Data
         return $this->cnpj($docFormatado);
       }
     }
+    return false;
   }
 
   public function getCpfAttr()

@@ -53,20 +53,30 @@ class MageShop_PagarMe_ApiController extends Mage_Core_Controller_Front_Action{
 
     public function callbackAction()
     {
-        $post = new Zend_Controller_Request_Http();
-        $rawbody = $post->getRawBody();
-        $data = json_decode($rawbody);
-        $hub = Mage::getModel('mageshop_pagarme/hub')->loadByInstallId($data->install_id);
-        
-        if($hub || $hub->getId()){
-            if($data->command == 'Uninstall'){
-                $hub->delete();
-                $this->createAdminNotification(
-                    $this->__('Integração com Pagar.me removida'),
-                    $this->__('A integração com o Pagar.me foi desinstalada com sucesso. Integração ID: %s', $hub->getInstallId()),
-                    Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE
-                );
+        try {
+            $post = new Zend_Controller_Request_Http();
+            $rawbody = $post->getRawBody();
+            $data = json_decode($rawbody);
+
+            if (!is_object($data) || empty($data->install_id)) {
+                return $this->getResponse()->setBody('success');
             }
+
+            $hub = Mage::getModel('mageshop_pagarme/hub')->loadByInstallId($data->install_id);
+
+            if ($hub && $hub->getId()) {
+                if (isset($data->command) && $data->command == 'Uninstall') {
+                    $installId = $hub->getInstallId();
+                    $hub->delete();
+                    $this->createAdminNotification(
+                        $this->__('Integração com Pagar.me removida'),
+                        $this->__('A integração com o Pagar.me foi desinstalada com sucesso. Integração ID: %s', $installId),
+                        Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE
+                    );
+                }
+            }
+        } catch (\Exception $e) {
+            Mage::logException($e);
         }
         return $this->getResponse()->setBody('success');
     }

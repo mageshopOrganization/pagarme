@@ -48,17 +48,34 @@ class MageShop_PagarMe_Adminhtml_HubController extends Mage_Adminhtml_Controller
         $http->url($url);
         $http->_method('POST');
         $http->_body(json_encode($body));
-        $http->exec();
+
+        try {
+            $http->exec();
+        } catch (\Exception $e) {
+            $this->getAdminSession()->addError(
+                $this->__('Failed to generate the Pagar.me token: %s', $e->getMessage())
+            );
+            $this->_redirect('adminhtml/system_config/edit', array('section' => 'payment'));
+            return;
+        }
 
         if($http->success()){
             $data = json_decode($http->getResponse());
-            $this->setHubInstallToken($data);
-            $this->getAdminSession()->addSuccess(
-                $this->__('Successfully generated the Pagar.me integration')
-            );
+            if (!is_object($data) || empty($data->access_token) || empty($data->install_id)) {
+                $this->getAdminSession()->addError(
+                    $this->__('Pagar.me returned an invalid integration payload.')
+                );
+            } else {
+                $this->setHubInstallToken($data);
+                $this->getAdminSession()->addSuccess(
+                    $this->__('Successfully generated the Pagar.me integration')
+                );
+            }
         }else{
+            $err = $http->error();
+            $detail = is_array($err) && isset($err['message']) ? $err['message'] : '';
             $this->getAdminSession()->addError(
-                $this->__('Failed to generate the Pagar.me token')
+                $this->__('Failed to generate the Pagar.me token%s', $detail ? ': ' . $detail : '')
             );
         }
 

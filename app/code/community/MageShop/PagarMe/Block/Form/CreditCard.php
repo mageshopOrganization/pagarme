@@ -44,13 +44,13 @@ class MageShop_PagarMe_Block_Form_CreditCard extends Mage_Payment_Block_Form
       $subtotal = $quote->getSubtotal();
       $_discount_helper = Mage::helper("mageshop_pagarme/discount");
       $_interest_helper = Mage::helper("mageshop_pagarme/interest");
-      $maxInstallments = $this->helper('mageshop_pagarme/creditCard')->getConfigData('installments');
+      $maxInstallments = (int) $this->helper('mageshop_pagarme/creditCard')->getConfigData('installments');
       $minValueInstalment = $this->helper('mageshop_pagarme/creditCard')->getConfigData('min_installment');
-      $dataInterest = $_interest_helper->getInstallmentInterest();
-      $dataInterest = unserialize($dataInterest);
+      $dataInterest = $_interest_helper->getPercentageConfig();
       $value_discount = 0;
       $percentage = 0;
       $installmentInterest = [];
+      $arrayInstallments = [];
       if($_discount_helper->getDiscountActiveCreditCard()){
         $percentage = $_discount_helper->getDiscountPercentageCreditCard();
         if ($_discount_helper->percentage()) {
@@ -58,9 +58,9 @@ class MageShop_PagarMe_Block_Form_CreditCard extends Mage_Payment_Block_Form
         }
       }
       foreach ($dataInterest as $key => $value) {
-        $installmentInterest[] = $value['from_qty'];
+        $installmentInterest[] = isset($value['from_qty']) ? $value['from_qty'] : 0;
       }
-      
+
       if ($maxInstallments == 0) {
         $arrayInstallments[1] = "1x de R$$total á vista";
         return $arrayInstallments;

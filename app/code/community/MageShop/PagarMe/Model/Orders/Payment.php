@@ -19,8 +19,10 @@ class MageShop_PagarMe_Model_Orders_Payment extends MageShop_PagarMe_Model_Order
 
         if (!$this->rest()->success()) {
             $error = $this->rest()->error();
-            $error = isset($error["message"]) ? $error["message"] : "Error";
-            Mage::throwException($error);
+            $message = is_array($error) && isset($error["message"]) && $error["message"] !== ''
+                ? $error["message"]
+                : "Falha ao processar o pagamento. Por favor, verifique os dados e tente novamente.";
+            Mage::throwException($message);
         }
 
         json_encode($this->response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);

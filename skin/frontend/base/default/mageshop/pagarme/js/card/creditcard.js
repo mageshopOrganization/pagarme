@@ -100,10 +100,9 @@ var CreditCardValidation = {
             // Teste Regex para verificar se é uma string formatada válida
             const validFormat = /^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/.test(cnpj);
   
-            // Se o formato é válido, usa um truque para seguir o fluxo da validação
-            if (digitsOnly || validFormat) true;
-            // Se não, retorna inválido
-            else return false;
+            if (!digitsOnly && !validFormat) {
+                return false;
+            }
         }
   
         // Guarda um array com todos os dígitos do valor

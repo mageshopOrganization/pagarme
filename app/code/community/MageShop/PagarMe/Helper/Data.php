@@ -120,16 +120,20 @@ class MageShop_PagarMe_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getSecretKey()
     {
-        return Mage::helper('core')->decrypt(
-            $this->secretKey()
-        );
+        $key = $this->secretKey();
+        if (empty($key)) {
+            return '';
+        }
+        return (string) Mage::helper('core')->decrypt($key);
     }
 
     public function getPublicKey()
     {
-        return Mage::helper('core')->decrypt(
-            $this->publicKey()
-        );
+        $key = $this->publicKey();
+        if (empty($key)) {
+            return '';
+        }
+        return (string) Mage::helper('core')->decrypt($key);
     }
     public function monetize($value)
     {

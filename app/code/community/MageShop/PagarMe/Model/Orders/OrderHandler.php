@@ -22,8 +22,10 @@ class MageShop_PagarMe_Model_Orders_OrderHandler extends MageShop_PagarMe_Model_
         
         if (!$http->success()) {
             $error = $http->error();
-            $error = isset($error["message"]) ? $error["message"] : "Error";
-            Mage::throwException($error);
+            $message = is_array($error) && isset($error["message"]) && $error["message"] !== ''
+                ? $error["message"]
+                : "Falha ao consultar o Pagar.me.";
+            Mage::throwException($message);
         }
 
         $response = $http->getResponse();
@@ -44,8 +46,10 @@ class MageShop_PagarMe_Model_Orders_OrderHandler extends MageShop_PagarMe_Model_
             ->exec();
         if (!$http->success()) {
             $error = $http->error();
-            $error = isset($error["message"]) ? $error["message"] : "Error";
-            Mage::throwException($error);
+            $message = is_array($error) && isset($error["message"]) && $error["message"] !== ''
+                ? $error["message"]
+                : "Falha ao consultar o Pagar.me.";
+            Mage::throwException($message);
         }
         $response = $http->getResponse();
         $res = json_decode($response, true);
@@ -66,8 +70,10 @@ class MageShop_PagarMe_Model_Orders_OrderHandler extends MageShop_PagarMe_Model_
 
         if (!$http->success()) {
             $error = $http->error();
-            $error = isset($error["message"]) ? $error["message"] : "Error";
-            Mage::throwException($error);
+            $message = is_array($error) && isset($error["message"]) && $error["message"] !== ''
+                ? $error["message"]
+                : "Falha ao consultar o Pagar.me.";
+            Mage::throwException($message);
         }
         $response = $http->getResponse();
         $res = json_decode($response, true);
@@ -86,8 +92,10 @@ class MageShop_PagarMe_Model_Orders_OrderHandler extends MageShop_PagarMe_Model_
 
         if (!$http->success()) {
             $error = $http->error();
-            $error = isset($error["message"]) ? $error["message"] : "Error";
-            Mage::throwException($error);
+            $message = is_array($error) && isset($error["message"]) && $error["message"] !== ''
+                ? $error["message"]
+                : "Falha ao consultar o Pagar.me.";
+            Mage::throwException($message);
         }
 
         $response = $http->getResponse();

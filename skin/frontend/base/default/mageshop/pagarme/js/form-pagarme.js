@@ -139,27 +139,28 @@ function maskCpf(cpf) {
       "validate-date",
       "Data de nascimento inválida. Verifique por favor",
       function (v) {
-        date = v;
+        var date = v;
         var bits = date.split("/");
+        if (!bits || bits.length < 3) return false;
         var y = bits[2],
           m = bits[1],
           d = bits[0];
-  
+
         var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  
+
         if ((!(y % 4) && y % 100) || !(y % 400)) {
           daysInMonth[1] = 29;
         }
         return !/\D/.test(String(d)) && d > 0 && d <= daysInMonth[--m];
       },
     ],
-  
+
     [
       "validate-cardnumber",
       "Número do cartão inválido. Verifique por favor",
       function (v) {
-        cardNumber = v.replace(/[\ ]/g, "");
-  
+        var cardNumber = v.replace(/[\ ]/g, "");
+
         if (cardNumber.length === 0) return false;
   
         let digit, digits, flag, sum, _i, _len;

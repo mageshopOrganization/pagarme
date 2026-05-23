@@ -24,9 +24,10 @@ class MageShop_PagarMe_Helper_Interest extends MageShop_PagarMe_Helper_Data
 
     public function percentage($split)
     {
+        $installmentInterest = array();
         $i = 1;
         foreach ($this->getPercentageConfig() as $value) {
-            $installmentInterest[$i] = $value['from_qty'];
+            $installmentInterest[$i] = isset($value['from_qty']) ? $value['from_qty'] : 0;
             $i++;
         }
         return isset($installmentInterest[$split]) && $installmentInterest[$split] != 0 && $installmentInterest[$split] != null ? $installmentInterest[$split] : 0.0;
@@ -34,7 +35,12 @@ class MageShop_PagarMe_Helper_Interest extends MageShop_PagarMe_Helper_Data
 
     public function getPercentageConfig()
     {
-        return unserialize($this->getInstallmentInterest());
+        $raw = $this->getInstallmentInterest();
+        if (empty($raw) || !is_string($raw)) {
+            return array();
+        }
+        $data = @unserialize($raw, array('allowed_classes' => false));
+        return is_array($data) ? $data : array();
     }
 
     public function getPercentage()

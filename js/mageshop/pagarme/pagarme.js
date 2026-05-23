@@ -54,18 +54,16 @@ var PCIPagarMe = Class.create({
                     return response.json();
                 })
                 .then(data => {
-                
-                    if (!data.id) {
-                        return data.then(errData => {
-                            throw new Error(JSON.stringify(errData));
-                        });
+
+                    if (!data || !data.id) {
+                        throw new Error(JSON.stringify(data || {message: 'Resposta vazia'}));
                     }
 
                     $$('input[name="payment[mageshop_pagarme_cc_token]"]').first().value = data.id;
                     PCIPagarMeObj.enablePlaceOrderButton(); // Exemplo de como habilitar o botão de pedido após obter o token
                     // Reagenda o setTimeout após 57 segundos (um pouco antes do token expirar em 60 segundos)
-                    this.tokenTimeout = setTimeout(function(){
-                        PCIPagarMeObj.tokenizeCard()
+                    PCIPagarMeObj.tokenTimeout = setTimeout(function(){
+                        PCIPagarMeObj.tokenizeCard();
                     }, 57000);
 
                 })
