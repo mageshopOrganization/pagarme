@@ -38,7 +38,7 @@ class MageShop_PagarMe_ApiController extends Mage_Core_Controller_Front_Action{
                 $model = Mage::getModel('mageshop_pagarme/job');
                 $model->setIncrementId($orderId);
                 $model->setNotificationId($orderIdPagarme);
-                $model->setPayload(json_encode($rawbody));
+                $model->setPayload($rawbody);
                 $model->setObs('WEBHOOK');
                 $model->setAttempts(0);
                 $model->setCreatedAt($now); // Defina a data de criação como a data e hora atual
