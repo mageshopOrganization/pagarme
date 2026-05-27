@@ -1,13 +1,13 @@
 <?php
 /**
- * PagSeguro Transparente Magento
- * Notification Controller responsible for receive order update notifications from PagSeguro
+ * PagarMe Transparente Magento
+ * Notification Controller responsible for receive order update notifications from PagarMe
  * See how to setup notification url on module's official website
  *
  * @category    MageShop
  * @package     MageShop_PagarMe
- * @author      Vitor Costa
- * @copyright   Copyright (c) 2023 Vitor Costa (https://github.com/csvitor/MageShop_PagarMe/)
+ * @author      MageShop LTDA
+ * @copyright   Copyright (c) 2023 MageShop LTDA (https://github.com/mageshopOrganization/pagarme)
  * @license     https://opensource.org/licenses/MIT MIT License
  */
 class MageShop_PagarMe_ApiController extends Mage_Core_Controller_Front_Action{
