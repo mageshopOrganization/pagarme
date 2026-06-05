@@ -29,7 +29,7 @@
                 </tr>
                 <tr>
                     <th><?php echo $this->__('Currency:') ?></th>
-                    <td><?php echo $this->__($charge['last_transaction']['currency']) ?></td>
+                    <td><?php echo $this->__(isset($charge['last_transaction']['currency']) ? $charge['last_transaction']['currency'] : '') ?></td>
                 </tr>
                 <tr>
                     <th><?php echo $this->__('Created at:') ?></th>
