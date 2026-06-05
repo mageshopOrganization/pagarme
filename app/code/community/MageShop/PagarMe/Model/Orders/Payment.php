@@ -55,9 +55,49 @@ class MageShop_PagarMe_Model_Orders_Payment extends MageShop_PagarMe_Model_Order
             return $this;
         }
         if ($this->getStatus($this->getTransactionStatus()) === MageShop_PagarMe_Model_Orders_Transaction::CANCELED) {
+            $this->_logGatewayError();
             Mage::throwException("Sua compra não pôde ser aprovada. Por favor, verifique os dados e tente novamente.");
         }
         return $this;
+    }
+
+    private function _logGatewayError()
+    {
+        $transaction = $this->getTransaction();
+        if (!is_array($transaction) || empty($transaction['charges'])) {
+            return;
+        }
+
+        $customer = isset($transaction['customer']) ? $transaction['customer'] : [];
+        $customerInfo = sprintf(
+            'customer: %s | email: %s | document: %s',
+            isset($customer['name'])     ? $customer['name']     : '',
+            isset($customer['email'])    ? $customer['email']    : '',
+            isset($customer['document']) ? $customer['document'] : ''
+        );
+
+        $orderInfo = sprintf(
+            'order_id: %s | order_code: %s',
+            isset($transaction['id'])   ? $transaction['id']   : '',
+            isset($transaction['code']) ? $transaction['code'] : ''
+        );
+
+        foreach ($transaction['charges'] as $charge) {
+            $gwResponse = isset($charge['last_transaction']['gateway_response'])
+                ? $charge['last_transaction']['gateway_response']
+                : null;
+            if ($gwResponse) {
+                Mage::log(
+                    '[PagarMe] Gateway error | ' . $orderInfo . ' | ' . $customerInfo .
+                    ' | charge: '  . (isset($charge['id'])             ? $charge['id']             : '') .
+                    ' | method: '  . (isset($charge['payment_method']) ? $charge['payment_method'] : '') .
+                    ' | gw_code: ' . (isset($gwResponse['code'])       ? $gwResponse['code']       : '') .
+                    ' | errors: '  . json_encode(isset($gwResponse['errors']) ? $gwResponse['errors'] : []),
+                    Zend_Log::ERR,
+                    'pagarme_errors.log'
+                );
+            }
+        }
     }
 
     /**
